@@ -1738,8 +1738,6 @@ class Pc{
         this.count=count;
         this.piece=piece;
     }
-    count;
-    piece;
 }
 
 function showCaptured(move){
