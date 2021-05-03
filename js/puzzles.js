@@ -16,7 +16,6 @@ class pgnObj{
     }
 }
 class Move{
-    map_c=new Array();
     constructor(from,to,piece,map_c,moveNumber,pieceCount,curnt_act_squr="",pre_act_sqr="",nxt_sqr="",incheck=false,mate=false,captured=false,promoted=""){
         this.from = from;
         this.to = to;
