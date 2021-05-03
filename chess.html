@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link  rel="stylesheet" href="scss/style.css">
+ 
+<title>Chess Board</title>
+
+  
+</head>
+<body>
+
+<div class="container">
+	
+<div class='board_player_wrapper'>
+<div class='player-1'>
+		
+	</div>
+<div class='indx_board'>
+	<div class='rowindex'>
+	</div>
+<div class='boardwrapper'>
+<div id="board" class="board">
+</div>
+<div class='colmindex'></div>
+</div>
+</div>
+<div class='player-2'></div>
+</div>
+	<div class="rightpanel">
+		<div class="navigateMoves">
+			<button class="nextbtn nextMove" onclick="undo()"><p><-</p></button>
+			<button class="nextbtn nextMove" onclick="flipOnClick()"><p>flip</p></button>
+			<button class="nextbtn nextMove" onclick="firstBtnOnClick()"><p>|<</p></button>
+			<button class="prebtn previouseMove" onclick="preBtnOnClick()">
+				<p><</p>
+			</button>
+			<button class="nextbtn nextMove" onclick="nextBtnOnClick()"><p>></p></button>
+			<button class="nextbtn nextMove" onclick="lastBtnOnClick()"><p>>|</p></button>
+		</div>
+		<input type='file' class="uploadpgn" ></input>
+		<div class='movelogger'> 
+		</div>
+	</div>
+
+</div>
+
+</body>
+<script src="js/drag.js"></script>
+</html>
