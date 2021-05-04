@@ -1,3 +1,4 @@
+
 class Obj{
     constructor(pos,val){
     this.pos=pos;
@@ -15,12 +16,13 @@ class pgnObj{
         this.movetext=movetext;
     }
 }
+
 class Move{
-    constructor(from,to,piece,map_c,moveNumber,pieceCount,curnt_act_squr="",pre_act_sqr="",nxt_sqr="",incheck=false,mate=false,captured=false,promoted=""){
+    constructor(from,to,piece,map_c,moveNumber,pieceCount,curnt_act_squr="",pre_act_sqr="",nxt_sqr="",incheck=false,mate=false,captured=false,promoted=""){ 
         this.from = from;
         this.to = to;
         this.piece = piece;
-	this.map_c=[[]];
+        this.map_c=[[]];
         for(i=0;i<map_c.length;i++){
             this.map_c[i] = map_c[i].slice();
         }
@@ -241,6 +243,244 @@ board.addEventListener('mousedown', (e)=>{
 
 });
 
+var preTouchX='';
+var preTouchY='';
+
+board.addEventListener('touchstart',(e)=>{
+
+    var x= Math.ceil((e.touches[0].pageX-board_x)/sqr_size);
+        var y= Math.ceil((e.touches[0].pageY-board_y)/sqr_size);
+        if(flipped){
+            y = 8-y+1;
+        }
+        else{
+            x=8-x+1;
+        }
+
+        if(x>0 && x<9 && y>0 && y<9){
+            var Id = "#square_"+y+"x"+x;
+            var className = ".square_"+y+"x"+x;
+        }
+
+    if(preTouchX==''&&preTouchY==''){
+        var act_img = document.querySelector(Id);
+        if(act_img!=null){
+            makeActive(className);
+            var src = act_img.getAttribute('src');
+            curnt_img_src = src;
+            curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
+            curnt_act_sq_cl = className;
+            pre_act_sq_id = Id;
+            preTouchX=x;
+            preTouchY=y;
+            var ar = allPossibleSquares(curnt_act_piece,y*10+x);
+            displayPossibleSquares(ar);
+        }
+        else{
+            preTouchX='';
+            preTouchY='';
+        }
+    }
+    else{
+        var yl =preTouchY;
+        var xl =preTouchX;
+
+        var tmap=[[]];
+        for(i=0;i<8;i++) tmap[i]=map[i].slice();
+        tmap[yl-1][xl-1]="";
+        tmap[y-1][x-1]=curnt_act_piece;
+        if(isInCheck(curnt_act_piece,tmap)){
+            incheck=true;
+        } 
+        else incheck=false;
+        if(isPossibleMove(curnt_act_piece,tn(yl,xl),tn(y,x))&&!incheck){
+
+            if(curnt_act_piece[1]=='r'){
+                if(curnt_act_piece[0]=='w'){
+                    if(yl==1&&xl==1&&!whiteRookQmoved ){whiteRookQmoved=true; canWhiteCastle_long=false;}
+                    if(yl==1&&xl==8&&!whiteRookKmoved ) {whiteRookKmoved=true; canWhiteCastle_short=false;}
+                }
+                else{
+                    if(yl==8&&xl==1&&!BlackRookQmoved ) {BlackRookQmoved=true;canBlackCastle_long=false;}
+                    if(yl==8&&xl==8&&!BlackRookKmoved ) {BlackRookKmoved=true;canBlackCastle_short=false;}
+                }
+            }
+     
+            gh=true;
+                if(curnt_act_piece[1]=='k'){
+                if((Math.abs(xl-x)>1)){
+                    gh=false;
+                    console.log('trying long castle 1');
+                    if((y==1||y==8)&&(x==7||x==3)){
+                        console.log('trying long castle 2');
+                        if(x==7){
+                            if(canCastle(curnt_act_piece[0],'short')){
+                                doCastle(curnt_act_piece[0],'short');
+                                gh=true;
+                            }
+                            else if(canCastle(curnt_act_piece[0],'long')){
+                                console.log('trying long castle');
+                                doCastle(curnt_act_piece[0],'long');
+                                gh=true;
+                            }
+                        }
+                    }
+                }
+                else if(Math.abs(xl-x)==1||Math.abs(yl-y)==1) goahead=true;
+                else gh=false;
+            }
+    
+            if(curnt_act_piece[1]=='k'&&(!hasBkMoved||!hasWkMoved&&goahead)){
+                if(curnt_act_piece[0]=='w') hasWkMoved = true;
+                else hasBkMoved = true;
+            }
+
+            console.log('value of gh',gh);
+        if(gh){
+
+            removePreActive();
+            removeActive();
+            pre_act_sq_cl = curnt_act_sq_cl;
+            makePreActive(pre_act_sq_cl);
+            curnt_act_sq_cl = className;
+            makeActive(curnt_act_sq_cl);
+            var act_img = document.querySelector(className);
+  
+            if(act_img != null){
+                act_img.style.zindex = 1;
+                var square = document.querySelector(className);
+                newImg = document.createElement('img');
+                newImg.src=curnt_img_src;
+                newImg.setAttribute('id',Id);
+                newImg.setAttribute('class','piece');
+                square.appendChild(newImg);
+                var preSquare = document.querySelector(pre_act_sq_cl);
+                var child = document.querySelector(pre_act_sq_id);
+                preSquare.removeChild(child);
+
+                if(map[y-1][x-1]!=""){
+                    var tmp = document.querySelector(".square_"+y+"x"+x);
+                    var tmp_child = document.querySelector("#square_"+y+"x"+x);
+                    tmp.removeChild(tmp_child);
+                }
+
+                moveNumber+=1;
+                availBackMoves+=1;
+                if(map[y-1][x-1]== "") captured=false;
+                else{
+                    captured = true;
+                    capturedpiece = map[y-1][x-1][1];
+                }
+                map[y-1][x-1]=map[yl-1][xl-1];
+                map[yl-1][xl-1]="";
+
+                showpp=false;
+                if(curnt_act_piece[1]=='p'){
+                    if(y==8||y==1){
+                        curnt_act_piece[0]=='w';
+                        brd=document.querySelector('.board');
+                        ch = document.createElement('span');
+                        ch.setAttribute('class','pp');
+                        ar=['q','n','b'];
+                        
+                        ar.forEach(e=>{
+                            var tmp=document.createElement('img');
+                            tmp.setAttribute('class','square');
+                            tmp.setAttribute('src','images/pieces/'+curnt_act_piece[0]+e+'.png');
+                            if(curnt_act_piece[0]=='w') num=ar.indexOf(e);
+                            else num=3+ar.indexOf(e);
+                            tmp.setAttribute('onclick','pawnPromote('+num+','+y+','+x+')');
+                            ch.appendChild(tmp);
+                        })
+                        if(curnt_act_piece[0]=='w'){
+                        if(flipped){
+                            ch.style.left=(x-1)*sqr_size+'px';
+                            ch.style.top='0px';
+                        } 
+                        else{
+                            ch.style.left=(8-x)*sqr_size+'px';
+                            ch.style.top=5*sqr_size+'px';
+                        }
+                        } 
+                        if(curnt_act_piece[0]=='b'){
+                            if(flipped){
+                                ch.style.left=(x-1)*sqr_size+'px';
+                                ch.style.top=5*sqr_size+'px';
+                            } 
+                            else{
+                                ch.style.left=(8-x)*sqr_size+'px';
+                                ch.style.top='0px';
+                            }
+                        }
+
+                        brd.appendChild(ch);
+                        showpp=true;
+                    }
+                    console.log("pawn");
+                    if(Math.abs(xl-x)>0){
+                        if(!captured){
+                            captured=true;
+                            capturedpiece = map[yl-1][x-1][1];
+                            console.log("removing",".square_"+yl+"x"+x);
+                            var tmp = document.querySelector(".square_"+yl+"x"+x);
+                            var tmp_child = document.querySelector("#square_"+yl+"x"+x);
+                            tmp.removeChild(tmp_child);
+                            map[yl-1][x-1]="";
+                        }
+                    }
+                }
+                checked=false;
+                mate=false;
+                console.log(turn=='w'? 'b':'w');
+                if(isInCheck(turn=='w'? 'b':'w',map)){
+                    console.log(turn=='w'? 'b':'w','is in check');
+                    checked=true;
+                } 
+                en="";
+                if(curnt_act_piece[1]=='p'&&Math.abs(yl-y)>1){
+                    en=turn;
+                }
+                if(captured){
+                    playAudio('captured','forward');
+                    switch(capturedpiece){case'p':indx=0;break;case'r':indx=1;break;case'n':indx=2;break;case'b':indx=3;break;case'q':indx=4;break;}
+                    if(turn=='w') bpieceCount[indx]-=1;
+                    else wpieceCount[indx]-=1;
+                }
+                else{
+                playAudio('move','forward');
+                }
+                var pieceCount=[];
+                pieceCount.push(wpieceCount.slice(),bpieceCount.slice());
+                move = new Move(tn(yl,xl),tn(y,x),curnt_act_piece,map,moveNumber,pieceCount,curnt_act_sq_cl,pre_act_sq_cl,"",checked,mate,captured);
+                showCaptured(move);
+                moves.push(move);
+                console.log(moves);
+                currently_rendering=moveNumber;
+                
+                if(turn=='w')
+                turn="b";
+                else turn='w';
+                moveLogger(move,captured,castled,castleType);
+                castled=false;
+                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
+                    puzzleResponse(unreadableMove(move),puzzle);
+                }
+            }
+		else{
+            //gh is false;
+		}
+    }
+    else{
+        //not a possible move
+        removeActive(curnt_act_sq_cl);
+    }
+
+    preTouchX='';
+    preTouchY='';
+}
+
+
+});
 
 /*
 document.querySelectorAll('.piece').forEach((item)=>{
@@ -2036,7 +2276,7 @@ function playAudio(arg,direction){
     }
 }
 
-function mapToFen(map){
+function mapToFen(map,premature=false){
     ar = map;
     str = "fen ";
     sc=0;
@@ -2064,7 +2304,9 @@ function mapToFen(map){
         if(i!=0)
             str+='/';
     }
-
+    if(premature){
+        return str+' -';
+    }
     str+=" "+turn+" ";
 
     if(canWhiteCastle_short) str+="K";
@@ -2430,4 +2672,3 @@ function puzzleResponse(move,puzzle){
         });
     }
 }
-
