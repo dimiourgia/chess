@@ -153,6 +153,7 @@ var showpp=false;
 var player1='white';
 var player2='black';
 var computer = player2;
+var checked,mate,captured,promoted;
 
 class LoggedMoves{
     constructor(log,piece,moveNumber){
