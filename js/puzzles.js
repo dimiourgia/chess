@@ -20,6 +20,7 @@ class Move{
         this.from = from;
         this.to = to;
         this.piece = piece;
+	this.map_c=[[]];
         for(i=0;i<map_c.length;i++){
             this.map_c[i] = map_c[i].slice();
         }
