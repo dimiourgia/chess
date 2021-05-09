@@ -6,50 +6,23 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link  rel="stylesheet" href="scss/style.css">
 
  
 <title>Chess Board</title>
-<style>
-	body{
-		background-color: azure;
-	}
-	.card{
-		margin: 15px;
-		height:200px; 
-		width:175px;
-		background-color: rgb(66, 70, 75);
-		border-radius: 5%;
-	}
-</style>
-
-  
 </head>
-<body>
-<div class='card' onclick='chess.html'></div>
-<a href="puzzles.html">
-	<div class='card'></div></a>
+<body style='background-color: rgb(20, 19, 19)'>
+	<div class='cards-wrapper'>
+	<div class='card'>
+		<a href='puzzles.html'><img src="images/others/puzzle.png" class='dragme' style='z-index: 10;'></a>
+	</div>
+	<div class='card'>
+		<a href='addPuzzles.html'>Add puzles</a>
+	</div>
+</div>
 
-	
 </body>
-<style>
-	.dialogue{
-		font-size: x-large;
-		font-weight: 300;
-		font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-		color:black;
-		width:600px;
-		height: 100px;
-		background-color: white;
-		border-radius: 5%;
-		border: 1px solid black;
-	}
-	.dialogue span{
-		opacity: 0;
-	}
-	.dialogue span.revealed{  
-		opacity:1;
-	}
-</style>
+
 <script src="js/speech.js"></script>
 
 </html>
