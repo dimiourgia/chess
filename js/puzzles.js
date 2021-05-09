@@ -54,14 +54,16 @@ map=    [
             ["br","bn","bb","bq","bk","bb","bn","br"]        
         ];
 
-        displayMap = [[]];
-        for(i=0;i<8;i++)
-            displayMap[i] = map[i].slice();
+displayMap = [[]];
+for(i=0;i<8;i++)
+    displayMap[i] = map[i].slice();
 
 
 //makeMove('e8c8');
 renderBoard('white','/images/pieces/',map);
-var puzzle={
+var stockfish = new Worker('/js/stockfish.asm.js');
+
+var puzzle=[{
     fen: '4R1K1/1P3P1P/4B3/8/8/1p4p1/p1b2p1p/4rk2 w - - - -',
     event: '',
     white: 'Magnus Carlsen',
@@ -87,14 +89,14 @@ var puzzle={
                         {string:'Sorry! but black will force a rook trade by playing re1+ and then he simply has too many pawns and thats an easy win for black', delay:speeds.normal}
                     ]}
             },
-
+    
             {
                 defaultText:[
                     {string:'Try finding a more forcing move for a mating net', delay:speeds.normal}
                 ]
             },
                 
-
+    
         ],
         two:[
             {
@@ -114,48 +116,118 @@ var puzzle={
         ],
         
     }
+   
+},
+{
+fen: 'R7/8/8/8/8/1P7/pp6/kbK5 w - - - -',
+event: 'Imaginary',
+white: 'Magnus Carlsen',
+black: 'Hikaru Nakmura',
+intro: {dialogue:[
+    {string:'The game is played in venice in 2015'}
+]},
+levels: 2,
+moves:{
+    one:[
+        {
+            1121:{response: 'b8d6', correct: true, final: false, 
+                dialogue:[
+                    { string:'Thats it!', delay:speeds.fast },
+                    { string: 'black king has only one move kb8', delay:speeds.normal },
+                    {string: 'finally deliver the checkmate', delay:speeds.fast}
+                ]
+                }
+        },
+        {
+            1131:{response: 'b8d6', correct: true, final: false, 
+                dialogue:[
+                    { string:'Thats it!', delay:speeds.fast },
+                    { string: 'black king has only one move kb8', delay:speeds.normal },
+                    {string: 'finally deliver the checkmate', delay:speeds.fast}
+                ]
+                }
+        },
+        {
+            1141:{response: 'b8d6', correct: true, final: false, 
+                dialogue:[
+                    { string:'Thats it!', delay:speeds.fast },
+                    { string: 'black king has only one move kb8', delay:speeds.normal },
+                    {string: 'finally deliver the checkmate', delay:speeds.fast}
+                ]
+                }
+        },
+        {
+            1151:{response: 'b8d6', correct: true, final: false, 
+                dialogue:[
+                    { string:'Thats it!', delay:speeds.fast },
+                    { string: 'black king has only one move kb8', delay:speeds.normal },
+                    {string: 'finally deliver the checkmate', delay:speeds.fast}
+                ]
+                }
+        },
+
+        {
+            defaultText:[
+                {string:'This is gonna take longer. There is a much quicker way to checkmate! up blak', delay:speeds.normal}
+            ]
+        },
+            
+
+    ],
+    two:[
+        {
+            2171:{response: '', correct: true, final: true,                                                                
+                dialogue:[
+                    { string:'Congratualations!', delay:speeds.fast },
+                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
+                ]
+                }
+        },
+        {
+            3171:{response: '', correct: true, final: true,                                                                
+                dialogue:[
+                    { string:'Congratualations!', delay:speeds.fast },
+                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
+                ]
+                }
+        },
+        {
+            4171:{response: '', correct: true, final: true,                                                                
+                dialogue:[
+                    { string:'Congratualations!', delay:speeds.fast },
+                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
+                ]
+                }
+        },
+        {
+            5171:{response: '', correct: true, final: true,                                                                
+                dialogue:[
+                    { string:'Congratualations!', delay:speeds.fast },
+                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
+                ]
+                }
+        },
+        {
+            defaultText:[
+                {string:'There is a mate in one move', delay: speeds.normal}
+            ]
+        },
+    ],
+    
 }
+},
 
-loadPuzzle(puzzle);
+];
 
-var level = 'one';
-var pre_ar=[];
-var curnt_act_sq_cl = "";
-var pre_act_sq_cl = "";
-var pre_act_sq_id = "";
-var curnt_act_piece="";
-var moveNumber=0;
-var moves=[];
-var availBackMoves=0;
-var flipped=true;
-var turn='w';
-var drgend=true;
-var last_x;
-var last_y;
-var hasBkMoved=false;
-var hasWkMoved=false;
-var whiteRookKmoved=false;
-var whiteRookQmoved=false;
-var BlackRookKmoved=false;
-var BlackRookQmoved=false;
-var whiteCastled = false;
-var blackCastled = false;
-var canBlackCastle_short=true;
-var canBlackCastle_long=true;
-var canWhiteCastle_short=true;
-var canWhiteCastle_long=true;
-var castled=false;
-var castleType='';
-var wpieceCount = [0,0,0,0,0,0];
-var bpieceCount = [0,0,0,0,0,0];
-var en="";
-var currently_rendering=0;
-var clickedActive="";
-var showpp=false;
-var player1='white';
-var player2='black';
-var computer = player2;
-var checked,mate,captured,promoted;
+loadPuzzle(puzzle[0]);
+
+var level = 'one';var pre_ar=[];var curnt_act_sq_cl = "";var pre_act_sq_cl = "";var pre_act_sq_id = "";var curnt_act_piece="";var moveNumber=0;var moves=[];var availBackMoves=0;var flipped=true;var turn='w';var drgend=true;var last_x;var last_y;var hasBkMoved=false;var hasWkMoved=false;var whiteRookKmoved=false;var whiteRookQmoved=false;var BlackRookKmoved=false;var BlackRookQmoved=false;var whiteCastled = false;var blackCastled = false;var canBlackCastle_short=true;var canBlackCastle_long=true;var canWhiteCastle_short=true;var canWhiteCastle_long=true;var castled=false;var castleType='';var wpieceCount = [0,0,0,0,0,0];var bpieceCount = [0,0,0,0,0,0];var en="";var currently_rendering=0;var clickedActive="";var showpp=false;var player1='white';var player2='black';var computer = player2;var checked,mate,captured,promoted;var touchDevice=false;var current_puzzle= 0;var fromTouch=false;
+var mouseEventAdded = false;
+var goneRogue=false;
+var moveAfterRogueMode=0;
+
+
+
 
 class LoggedMoves{
     constructor(log,piece,moveNumber){
@@ -183,338 +255,44 @@ var board_x = pos.left;
 var board_y= pos.top+window.scrollY;
 var sqr_size = Math.floor((pos.width)/8);
 
-console.log(board_x,board_y);
 
-
-board.addEventListener('mousedown', (e)=>{
-
-    console.log('trying to attach event listener');
-    var x= Math.ceil((e.pageX-board_x)/sqr_size);
-    var y= Math.ceil((e.pageY-board_y)/sqr_size);
-    last_x=x;
-    last_y=y;
-
-    if(flipped){
-        y = 8-y+1;
+function startDrag(e) {
+    // determine event object
+    if (!e) {
+        var e = window.event;
     }
-    else{
-        x=8-x+1;
-    }
-   
-    if(x>0 && x<9 && y>0 && y<9){
-        var Id = "#square_"+y+"x"+x;
-        var className = ".square_"+y+"x"+x;
-    }
+    if(e.preventDefault) e.preventDefault();
 
-    var act_img = document.querySelector(Id);
+    // IE uses srcElement, others use target
+    targ = e.target ? e.target : e.srcElement;
+    if(targ.className!='piece') {drag=false; return;}
+    curnt_img_src=targ.getAttribute('src');
+    if(curnt_img_src!=null)
+       curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
 
-    console.log('to ', act_img);
-    if(act_img != null){
-        drgend=false;
-        var src = act_img.getAttribute('src');
-        curnt_img_src = src;
-        curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
-        tmp = document.querySelector(className);
-        
+    if (targ.className != 'piece' &&turn!=curnt_act_piece[1]&&!touchDevice) {drgend =false; return};
+    drgend=true;
+    pre_act_sq_id='#'+targ.id;
+    curnt_act_sq_cl='.'+targ.id;
 
-            console.log('here is the act_img',act_img);
-            act_img.addEventListener('dragstart', (e)=>{
-                console.log('drag started');
-                act_img.style.zIndex = 3;
-                curnt_act_sq_cl = className;
-                pre_act_sq_id = Id;
-                var imgNew = new Image();
-                imgNew.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-                e.dataTransfer.setDragImage(imgNew, 0, 0);
-            }, false);
-    
-    
-            act_img.addEventListener('drag',(e) =>{
-              //  console.log('dragging');
-                if(turn==curnt_act_piece[0]){
-                act_img.style.left = e.pageX-board_x-sqr_size/2 + "px";
-                act_img.style.top = e.pageY-board_y-sqr_size/2 + "px";
-                drgend=true;
-                }
-                else{drgend=false;}
-            },false);
-        
-    }
 
-});
-
-var preTouchX='';
-var preTouchY='';
-
-board.addEventListener('touchstart',(e)=>{
-
-    var x= Math.ceil((e.touches[0].pageX-board_x)/sqr_size);
-        var y= Math.ceil((e.touches[0].pageY-board_y)/sqr_size);
-        if(flipped){
-            y = 8-y+1;
-        }
-        else{
-            x=8-x+1;
-        }
-
-        if(x>0 && x<9 && y>0 && y<9){
-            var Id = "#square_"+y+"x"+x;
-            var className = ".square_"+y+"x"+x;
-        }
-
-    if(preTouchX==''&&preTouchY==''){
-        var act_img = document.querySelector(Id);
-        if(act_img!=null){
-            makeActive(className);
-            var src = act_img.getAttribute('src');
-            curnt_img_src = src;
-            curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
-            curnt_act_sq_cl = className;
-            pre_act_sq_id = Id;
-            preTouchX=x;
-            preTouchY=y;
-            var ar = allPossibleSquares(curnt_act_piece,y*10+x);
-            displayPossibleSquares(ar);
-        }
-        else{
-            preTouchX='';
-            preTouchY='';
-        }
-    }
-    else{
-        var yl =preTouchY;
-        var xl =preTouchX;
-
-        var tmap=[[]];
-        for(i=0;i<8;i++) tmap[i]=map[i].slice();
-        tmap[yl-1][xl-1]="";
-        tmap[y-1][x-1]=curnt_act_piece;
-        if(isInCheck(curnt_act_piece,tmap)){
-            incheck=true;
-        } 
-        else incheck=false;
-        if(isPossibleMove(curnt_act_piece,tn(yl,xl),tn(y,x))&&!incheck){
-
-            if(curnt_act_piece[1]=='r'){
-                if(curnt_act_piece[0]=='w'){
-                    if(yl==1&&xl==1&&!whiteRookQmoved ){whiteRookQmoved=true; canWhiteCastle_long=false;}
-                    if(yl==1&&xl==8&&!whiteRookKmoved ) {whiteRookKmoved=true; canWhiteCastle_short=false;}
-                }
-                else{
-                    if(yl==8&&xl==1&&!BlackRookQmoved ) {BlackRookQmoved=true;canBlackCastle_long=false;}
-                    if(yl==8&&xl==8&&!BlackRookKmoved ) {BlackRookKmoved=true;canBlackCastle_short=false;}
-                }
-            }
-     
-            gh=true;
-                if(curnt_act_piece[1]=='k'){
-                if((Math.abs(xl-x)>1)){
-                    gh=false;
-                    console.log('trying long castle 1');
-                    if((y==1||y==8)&&(x==7||x==3)){
-                        console.log('trying long castle 2');
-                        if(x==7){
-                            if(canCastle(curnt_act_piece[0],'short')){
-                                doCastle(curnt_act_piece[0],'short');
-                                gh=true;
-                            }
-                            else if(canCastle(curnt_act_piece[0],'long')){
-                                console.log('trying long castle');
-                                doCastle(curnt_act_piece[0],'long');
-                                gh=true;
-                            }
-                        }
-                    }
-                }
-                else if(Math.abs(xl-x)==1||Math.abs(yl-y)==1) goahead=true;
-                else gh=false;
-            }
-    
-            if(curnt_act_piece[1]=='k'&&(!hasBkMoved||!hasWkMoved&&goahead)){
-                if(curnt_act_piece[0]=='w') hasWkMoved = true;
-                else hasBkMoved = true;
-            }
-
-            console.log('value of gh',gh);
-        if(gh){
-
-            removePreActive();
-            removeActive();
-            pre_act_sq_cl = curnt_act_sq_cl;
-            makePreActive(pre_act_sq_cl);
-            curnt_act_sq_cl = className;
-            makeActive(curnt_act_sq_cl);
-            var act_img = document.querySelector(className);
-  
-            if(act_img != null){
-                act_img.style.zindex = 1;
-                var square = document.querySelector(className);
-                newImg = document.createElement('img');
-                newImg.src=curnt_img_src;
-                newImg.setAttribute('id',Id);
-                newImg.setAttribute('class','piece');
-                square.appendChild(newImg);
-                var preSquare = document.querySelector(pre_act_sq_cl);
-                var child = document.querySelector(pre_act_sq_id);
-                preSquare.removeChild(child);
-
-                if(map[y-1][x-1]!=""){
-                    var tmp = document.querySelector(".square_"+y+"x"+x);
-                    var tmp_child = document.querySelector("#square_"+y+"x"+x);
-                    tmp.removeChild(tmp_child);
-                }
-
-                moveNumber+=1;
-                availBackMoves+=1;
-                if(map[y-1][x-1]== "") captured=false;
-                else{
-                    captured = true;
-                    capturedpiece = map[y-1][x-1][1];
-                }
-                map[y-1][x-1]=map[yl-1][xl-1];
-                map[yl-1][xl-1]="";
-
-                showpp=false;
-                if(curnt_act_piece[1]=='p'){
-                    if(y==8||y==1){
-                        curnt_act_piece[0]=='w';
-                        brd=document.querySelector('.board');
-                        ch = document.createElement('span');
-                        ch.setAttribute('class','pp');
-                        ar=['q','n','b'];
-                        
-                        ar.forEach(e=>{
-                            var tmp=document.createElement('img');
-                            tmp.setAttribute('class','square');
-                            tmp.setAttribute('src','images/pieces/'+curnt_act_piece[0]+e+'.png');
-                            if(curnt_act_piece[0]=='w') num=ar.indexOf(e);
-                            else num=3+ar.indexOf(e);
-                            tmp.setAttribute('onclick','pawnPromote('+num+','+y+','+x+')');
-                            ch.appendChild(tmp);
-                        })
-                        if(curnt_act_piece[0]=='w'){
-                        if(flipped){
-                            ch.style.left=(x-1)*sqr_size+'px';
-                            ch.style.top='0px';
-                        } 
-                        else{
-                            ch.style.left=(8-x)*sqr_size+'px';
-                            ch.style.top=5*sqr_size+'px';
-                        }
-                        } 
-                        if(curnt_act_piece[0]=='b'){
-                            if(flipped){
-                                ch.style.left=(x-1)*sqr_size+'px';
-                                ch.style.top=5*sqr_size+'px';
-                            } 
-                            else{
-                                ch.style.left=(8-x)*sqr_size+'px';
-                                ch.style.top='0px';
-                            }
-                        }
-
-                        brd.appendChild(ch);
-                        showpp=true;
-                    }
-                    console.log("pawn");
-                    if(Math.abs(xl-x)>0){
-                        if(!captured){
-                            captured=true;
-                            capturedpiece = map[yl-1][x-1][1];
-                            console.log("removing",".square_"+yl+"x"+x);
-                            var tmp = document.querySelector(".square_"+yl+"x"+x);
-                            var tmp_child = document.querySelector("#square_"+yl+"x"+x);
-                            tmp.removeChild(tmp_child);
-                            map[yl-1][x-1]="";
-                        }
-                    }
-                }
-                checked=false;
-                mate=false;
-                console.log(turn=='w'? 'b':'w');
-                if(isInCheck(turn=='w'? 'b':'w',map)){
-                    console.log(turn=='w'? 'b':'w','is in check');
-                    checked=true;
-                } 
-                en="";
-                if(curnt_act_piece[1]=='p'&&Math.abs(yl-y)>1){
-                    en=turn;
-                }
-                if(captured){
-                    playAudio('captured','forward');
-                    switch(capturedpiece){case'p':indx=0;break;case'r':indx=1;break;case'n':indx=2;break;case'b':indx=3;break;case'q':indx=4;break;}
-                    if(turn=='w') bpieceCount[indx]-=1;
-                    else wpieceCount[indx]-=1;
-                }
-                else{
-                playAudio('move','forward');
-                }
-                var pieceCount=[];
-                pieceCount.push(wpieceCount.slice(),bpieceCount.slice());
-                move = new Move(tn(yl,xl),tn(y,x),curnt_act_piece,map,moveNumber,pieceCount,curnt_act_sq_cl,pre_act_sq_cl,"",checked,mate,captured);
-                showCaptured(move);
-                moves.push(move);
-                console.log(moves);
-                currently_rendering=moveNumber;
-                
-                if(turn=='w')
-                turn="b";
-                else turn='w';
-                moveLogger(move,captured,castled,castleType);
-                castled=false;
-                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
-                    puzzleResponse(unreadableMove(move),puzzle);
-                }
-            }
-		else{
-            //gh is false;
-		}
-    }
-    else{
-        //not a possible move
-        removeActive(curnt_act_sq_cl);
-    }
-
-    preTouchX='';
-    preTouchY='';
+    drag = true;
+    // move div element
+    document.onmousemove=dragDiv;
+    return false;
 }
+var pre = "";
+
+function dragDiv(e) {
+    if (!drag) {return};
+    if (!e) { var e= window.event};
+    // var targ=e.target?e.target:e.srcElement;
+    // move div element
+    targ.style.left= Math.max(0, Math.min(e.pageX-board_x-sqr_size/2,pos.width-sqr_size)) + "px";
+    targ.style.top=Math.max(0, Math.min(e.pageY-board_y-sqr_size/2,pos.height-sqr_size)) + "px";
+    targ.style.zIndex='3';
 
 
-});
-
-/*
-document.querySelectorAll('.piece').forEach((item)=>{
-    item.addEventListener('dragstart',(e)=>{
-        item.getAttribute('id');
-        pre_act_sq_id='#'+item.getAttribute('id');
-        curnt_act_sq_cl = '.'+item.getAttribute('id');
-        if(!item.classList.contains('active')) item.classList.add('active');
-        var imgNew = new Image();
-            imgNew.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-            e.dataTransfer.setDragImage(imgNew, 0, 0);
-        
-        curnt_img_src = item.getAttribute('src');
-        curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
-    })
-})
-
-document.querySelectorAll('.piece').forEach((item)=>{
-    item.addEventListener('drag',(e)=>{
-        item.style.left = e.pageX-board_x-sqr_size/2 + "px";
-        item.style.top = e.pageY-board_y-sqr_size/2 + "px";
-        drgend=true;
-    })
-})
-*/
-
-//drag end event
-board.addEventListener('dragend', (e)=>{
-
-
-    console.log('dragend executed');
-    
-    if(drgend){
-    removePossibleSquaresDisplay(pre_ar);
     var x= Math.ceil((e.pageX-board_x)/sqr_size);
     var y= Math.ceil((e.pageY-board_y)/sqr_size);
         cx =x;
@@ -525,16 +303,60 @@ board.addEventListener('dragend', (e)=>{
     else{
         x=8-x+1;
     }
+    if(x>0 && x<9 && y>0 && y<9){
+        var Id = "square_"+y+"x"+x;
+        var className = ".square_"+y+"x"+x;
+    }
+    if(pre!="")
+    document.querySelector(pre).style.outline='0px';
+    if(className!=""&&className!=null){
+        var tmp = document.querySelector(className);
+        tmp.style.outline='2px solid white';
+        tmp.style.outlineOffset = '-2px';
+        pre=className
+    }
+    
+    
+
+    return false;
+}
+function stopDrag(e) {
+    if(pre!="")  document.querySelector(pre).style.outline='0px';
+     console.log('dragend executed', touchDevice);
+     var x= Math.ceil((e.pageX-board_x)/sqr_size);
+    var y= Math.ceil((e.pageY-board_y)/sqr_size);
+        cx =x;
+        cy=y;
+    if(flipped){
+        y = 8-y+1;
+    }
+    
+
+    var yl = curnt_act_sq_cl.substr(8,1);
+   var xl = curnt_act_sq_cl.substr(10,1);
+   yl*=1;
+   xl*=1;
     
     if(x>0 && x<9 && y>0 && y<9){
         var Id = "square_"+y+"x"+x;
         var className = ".square_"+y+"x"+x;
     }
-
-   var yl = curnt_act_sq_cl.substr(8,1);
-   var xl = curnt_act_sq_cl.substr(10,1);
-   yl*=1;
-   xl*=1;
+    else{
+        if(pre_act_sq_id!=null && pre_act_sq_id!='' ){
+            var child = document.querySelector(pre_act_sq_id);
+            if(flipped) yl=8-yl+1;
+            else xl=8-xl+1;
+            child.style.left = (xl-1)*sqr_size+"px";
+            child.style.top = (yl-1)*sqr_size+"px";
+            child.style.opacity=1;
+    }
+    drag=false;
+    return;
+}
+   
+    if(drgend && !touchDevice && curnt_act_piece[0]==turn){
+    removePossibleSquaresDisplay(pre_ar);
+   
 
     //incheck = (isInCheck(curnt_act_piece,tn(yl,xl),tn(y,x)));
     //console.log(allPossibleMoves(curnt_act_piece,tn(yl,xl),map));
@@ -732,7 +554,7 @@ console.log(goahead,'goahead');
                 moveLogger(move,captured,castled,castleType);
                 castled=false;
                 if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
-                    puzzleResponse(unreadableMove(move),puzzle);
+                    puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
                 }
             }
         }
@@ -748,15 +570,302 @@ console.log(goahead,'goahead');
     }
 
     else{
+        if(pre_act_sq_id!=null && pre_act_sq_id!='' && !touchDevice){
         var child = document.querySelector(pre_act_sq_id);
-        console.log('pid',pre_act_sq_id)
+        console.log('pid',pre_act_sq_id, child)
         if(flipped) yl=8-yl+1;
         else xl=8-xl+1;
         child.style.left = (xl-1)*sqr_size+"px";
         child.style.top = (yl-1)*sqr_size+"px";
         child.style.opacity=1;
+        }
     }
-});
+
+    drag=false;
+}
+
+window.onload = function() {
+    console.log('touchdevice', touchDevice);
+    if(!touchDevice){
+        document.querySelector('#board').addEventListener('mousedown',startDrag);
+        document.querySelector('#board').addEventListener('mouseup',stopDrag);
+        mouseEventAdded=true;
+    }
+}
+
+
+
+
+var preTouchX='';
+var preTouchY='';
+
+
+board.addEventListener('touchstart',(e)=>{
+
+    if(mouseEventAdded){
+        document.querySelector('#board').removeEventListener('mousedown',startDrag);
+        document.querySelector('#board').removeEventListener('mouseup',stopDrag);
+        mouseEventAdded=false;
+    }
+
+    if(pre_act_sq_id!=null&&pre_act_sq_id!=""){
+        var tmp = document.querySelector(pre_act_sq_id);
+        if(tmp!=null){
+            tmp.style.top = (pre_act_sq_id.substr(7,1)*1-1)*sqr_size + 'px';
+            tmp.style.left = (pre_act_sq_id.substr(9,1)*1-1)*sqr_size + 'px';
+        }  
+    }
+    
+    touchDevice=true;
+    var x= Math.ceil((e.touches[0].pageX-board_x)/sqr_size);
+        var y= Math.ceil((e.touches[0].pageY-board_y)/sqr_size);
+        if(flipped){
+            y = 8-y+1;
+        }
+        else{
+            x=8-x+1;
+        }
+
+        console.log('touch event fired at',y,x);
+
+        if(x>0 && x<9 && y>0 && y<9){
+            var Id = "square_"+y+"x"+x;
+            var className = ".square_"+y+"x"+x;
+        }
+
+        var ar="";
+    if(preTouchX==''&&preTouchY==''){
+        console.log('executing pre empty touch');
+        var act_img = document.querySelector('#'+Id);
+        if(act_img!=null){
+            var src = act_img.getAttribute('src');
+            curnt_img_src = src;
+            curnt_act_piece = curnt_img_src.substr(curnt_img_src.length-6,2);
+            if(turn!=curnt_act_piece[0]){
+                if(player1[0].toLowerCase()==curnt_act_piece[0]) toastMessage('It is not your turn');
+                else
+                toastMessage('Play as '+player1);
+                return;
+            }
+            makeActive(className);
+            curnt_act_sq_cl = className;
+            pre_act_sq_id = '#'+Id;
+            preTouchX=x;
+            preTouchY=y;
+            ar = allPossibleMoves(curnt_act_piece,y*10+x);
+            displayPossibleSquares(ar);
+        }
+        else{
+            preTouchX='';
+            preTouchY='';
+        }
+    }
+    else{
+        var yl =preTouchY;
+        var xl =preTouchX;
+
+        var tmap=[[]];
+        for(i=0;i<8;i++) tmap[i]=map[i].slice();
+        tmap[yl-1][xl-1]="";
+        tmap[y-1][x-1]=curnt_act_piece;
+        if(isInCheck(curnt_act_piece,tmap)){
+            incheck=true;
+        } 
+        else incheck=false;
+        if(isPossibleMove(curnt_act_piece,tn(yl,xl),tn(y,x))&&!incheck){
+
+            if(curnt_act_piece[1]=='r'){
+                if(curnt_act_piece[0]=='w'){
+                    if(yl==1&&xl==1&&!whiteRookQmoved ){whiteRookQmoved=true; canWhiteCastle_long=false;}
+                    if(yl==1&&xl==8&&!whiteRookKmoved ) {whiteRookKmoved=true; canWhiteCastle_short=false;}
+                }
+                else{
+                    if(yl==8&&xl==1&&!BlackRookQmoved ) {BlackRookQmoved=true;canBlackCastle_long=false;}
+                    if(yl==8&&xl==8&&!BlackRookKmoved ) {BlackRookKmoved=true;canBlackCastle_short=false;}
+                }
+            }
+     
+            gh=true;
+                if(curnt_act_piece[1]=='k'){
+                if((Math.abs(xl-x)>1)){
+                    gh=false;
+                    console.log('trying long castle 1');
+                    if((y==1||y==8)&&(x==7||x==3)){
+                        console.log('trying long castle 2');
+                        if(x==7){
+                            if(canCastle(curnt_act_piece[0],'short')){
+                                doCastle(curnt_act_piece[0],'short');
+                                gh=true;
+                            }
+                            else if(canCastle(curnt_act_piece[0],'long')){
+                                console.log('trying long castle');
+                                doCastle(curnt_act_piece[0],'long');
+                                gh=true;
+                            }
+                        }
+                    }
+                }
+                else if(Math.abs(xl-x)==1||Math.abs(yl-y)==1) goahead=true;
+                else gh=false;
+            }
+    
+            if(curnt_act_piece[1]=='k'&&(!hasBkMoved||!hasWkMoved&&goahead)){
+                if(curnt_act_piece[0]=='w') hasWkMoved = true;
+                else hasBkMoved = true;
+            }
+
+            console.log('value of gh',gh);
+        if(gh){
+
+            removePreActive();
+            removeActive();
+            pre_act_sq_cl = curnt_act_sq_cl;
+            makePreActive(pre_act_sq_cl);
+            curnt_act_sq_cl = className;
+            makeActive(curnt_act_sq_cl);
+            var act_img = document.querySelector(className);
+  
+            if(act_img != null){
+                act_img.style.zindex = 1;
+                var square = document.querySelector(className);
+                newImg = document.createElement('img');
+                newImg.src=curnt_img_src;
+                newImg.setAttribute('id',Id);
+                newImg.setAttribute('class','piece');
+               // square.appendChild(newImg);
+                var preSquare = document.querySelector(pre_act_sq_cl);
+                var child = document.querySelector(pre_act_sq_id);
+             //   preSquare.removeChild(child);
+
+                if(map[y-1][x-1]!=""){
+                    var tmp = document.querySelector(".square_"+y+"x"+x);
+                    var tmp_child = document.querySelector("#square_"+y+"x"+x);
+                    tmp.removeChild(tmp_child);
+                }
+
+                moveNumber+=1;
+                availBackMoves+=1;
+                if(map[y-1][x-1]== "") captured=false;
+                else{
+                    captured = true;
+                    capturedpiece = map[y-1][x-1][1];
+                }
+                map[y-1][x-1]=map[yl-1][xl-1];
+                map[yl-1][xl-1]="";
+
+                showpp=false;
+                if(curnt_act_piece[1]=='p'){
+                    if(y==8||y==1){
+                        curnt_act_piece[0]=='w';
+                        brd=document.querySelector('.board');
+                        ch = document.createElement('span');
+                        ch.setAttribute('class','pp');
+                        ar=['q','n','b'];
+                        
+                        ar.forEach(e=>{
+                            var tmp=document.createElement('img');
+                            tmp.setAttribute('class','square');
+                            tmp.setAttribute('src','images/pieces/'+curnt_act_piece[0]+e+'.png');
+                            if(curnt_act_piece[0]=='w') num=ar.indexOf(e);
+                            else num=3+ar.indexOf(e);
+                            tmp.setAttribute('onclick','pawnPromote('+num+','+y+','+x+')');
+                            ch.appendChild(tmp);
+                        })
+                        if(curnt_act_piece[0]=='w'){
+                        if(flipped){
+                            ch.style.left=(x-1)*sqr_size+'px';
+                            ch.style.top='0px';
+                        } 
+                        else{
+                            ch.style.left=(8-x)*sqr_size+'px';
+                            ch.style.top=5*sqr_size+'px';
+                        }
+                        } 
+                        if(curnt_act_piece[0]=='b'){
+                            if(flipped){
+                                ch.style.left=(x-1)*sqr_size+'px';
+                                ch.style.top=5*sqr_size+'px';
+                            } 
+                            else{
+                                ch.style.left=(8-x)*sqr_size+'px';
+                                ch.style.top='0px';
+                            }
+                        }
+
+                        brd.appendChild(ch);
+                        showpp=true;
+                    }
+                    console.log("pawn");
+                    if(Math.abs(xl-x)>0){
+                        if(!captured){
+                            captured=true;
+                            capturedpiece = map[yl-1][x-1][1];
+                            console.log("removing",".square_"+yl+"x"+x);
+                            var tmp = document.querySelector(".square_"+yl+"x"+x);
+                            var tmp_child = document.querySelector("#square_"+yl+"x"+x);
+                            tmp.removeChild(tmp_child);
+                            map[yl-1][x-1]="";
+                        }
+                    }
+                }
+                checked=false;
+                mate=false;
+                console.log(turn=='w'? 'b':'w');
+                if(isInCheck(turn=='w'? 'b':'w',map)){
+                    console.log(turn=='w'? 'b':'w','is in check');
+                    checked=true;
+                } 
+                en="";
+                if(curnt_act_piece[1]=='p'&&Math.abs(yl-y)>1){
+                    en=turn;
+                }
+                if(captured){
+                   // playAudio('captured','forward');
+                    switch(capturedpiece){case'p':indx=0;break;case'r':indx=1;break;case'n':indx=2;break;case'b':indx=3;break;case'q':indx=4;break;}
+                    if(turn=='w') bpieceCount[indx]-=1;
+                    else wpieceCount[indx]-=1;
+                }
+                else{
+                //playAudio('move','forward');
+                }
+                var pieceCount=[];
+                pieceCount.push(wpieceCount.slice(),bpieceCount.slice());
+                move = new Move(tn(yl,xl),tn(y,x),curnt_act_piece,map,moveNumber,pieceCount,curnt_act_sq_cl,pre_act_sq_cl,"",checked,mate,captured);
+                showCaptured(move);
+                moves.push(move);
+                fromTouch=true;
+
+                animateMove(moves.length-1,'forward');
+                console.log(moves);
+                currently_rendering=moveNumber;
+                
+                if(turn=='w')
+                turn="b";
+                else turn='w';
+                moveLogger(move,captured,castled,castleType);
+                castled=false;
+
+              //  renderRandom(moves.length-1);
+                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
+                    puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
+                }
+            }
+        else{
+            //gh is false;
+        }
+        if(ar!="")
+        removePossibleSquaresDisplay(ar);
+    }
+    else{
+        //not a possible move
+        removeActive(curnt_act_sq_cl);
+    }
+
+    preTouchX='';
+    preTouchY='';
+}
+},false);
+
 //pawnPromote('wq','square_8x6','square_8x6',8,6);
 function pawnPromote(piece,row,col){
     ar=['wq','wn','wb','bq','bn','bb'];
@@ -881,10 +990,13 @@ board.addEventListener('click', (e)=>{
         var piece = curnt_img_src.substr(curnt_img_src.length-6,2);
         if(turn==piece[0]){
         if(piece[1]!='p'){
-            var ar = allPossibleSquares(piece[1],y*10+x);
+
+            var ar =  allPossibleMoves(piece,y*10+x,map);
+            //var ar = allPossibleSquares(piece[1],y*10+x);
         }
         else{
-            var ar = allPossibleSquares(piece,y*10+x);
+            //var ar = allPossibleSquares(piece,y*10+x);
+            var ar =  allPossibleMoves(piece,y*10+x,map);
         }
 
         removePossibleSquaresDisplay(pre_ar);
@@ -1862,6 +1974,12 @@ if(_to!=""&&_from!=""){
 }
 
 var elem = document.querySelector("#square_"+fx+"x"+fy);
+
+if(fromTouch){
+    console.log(tx,ty);
+    var elem = document.querySelector("#square_"+tx+'x'+ty);
+    fromTouch=false;
+} 
     if(flipped){
         fx=8-fx+1;
         tx=8-tx+1
@@ -1975,6 +2093,7 @@ var elem = document.querySelector("#square_"+fx+"x"+fy);
         }
     }
 }
+
 class Pc{
     constructor(count,piece){
         this.count=count;
@@ -2130,7 +2249,6 @@ function renderBoard(side,image_source,map){
                  var img = document.createElement('img');
                  img.setAttribute('src',image_source+map[i][j]+'.png');
                  img.setAttribute('class','piece');
-                 img.setAttribute('class','grabbable');
                  img.setAttribute('id','square_'+(i+1)+"x"+(j+1));
                  tmp2.appendChild(img);
              }   
@@ -2172,8 +2290,8 @@ function renderBoard(side,image_source,map){
                  img.setAttribute('src',image_source+map[i][j]+'.png');
                  img.setAttribute('class','piece');
                  img.setAttribute('id','square_'+(i+1)+"x"+(j+1));
-                 img.style.left=sqr_size*j+'px';
-                 img.style.top=sqr_size*(7-i)+'px';
+             //    img.style.left=sqr_size*j+'px';
+             //    img.style.top=sqr_size*(7-i)+'px';
                  tmp2.appendChild(img);
              }   
              tmp.appendChild(tmp2);
@@ -2369,10 +2487,7 @@ function pieceToNum(piece){
         }
 }
 function makeMove(m,c){
-
-
     console.log('make move execute with move', m);
-    if(m.length!=4) return;
     fr=m[1];
     fc=fileToNum(m[0]);
     tr=m[3];
@@ -2422,7 +2537,7 @@ function makeMove(m,c){
                     capturedpiece=map[y-1][x-1][1];
                 }
                 promoted="";
-                if(m.length==5){map[y-1][x-1]=c+m[4]; promoted=turn+m[4];} 
+                if(m.length==5){map[y-1][x-1]=c+m[4]; promoted=turn+m[4]; console.log('trying to promote');} 
                 else map[y-1][x-1]=map[yl-1][xl-1];
                 map[yl-1][xl-1]="";
                 if(curnt_act_piece[1]=='r'){
@@ -2513,9 +2628,13 @@ function makeMove(m,c){
             renderMove(moves[moveNumber]);
 }
 
-async function displayDialogue(dialogue){
+async function displayDialogue(dialogue,timeout=0){
+
+    
 
     return new Promise(resolve=>{
+        if(dialogue=='') {resolve('resolved'); return;}
+
         var speeds = {
             pause:500,
             slow:120,
@@ -2599,13 +2718,21 @@ function fenToMap(fen){
 function loadPuzzle(puzzle){
     level ='one';
     map = fenToMap(puzzle.fen);
+    turn = puzzle.fen.split(' ')[1];
+    player1= (turn=='w')? 'white':'black';
+    moves = [];
+    wpieceCount = [0,0,0,0,0,0];
+    bpieceCount = [0,0,0,0,0,0];
+    initializePieceCount();
+    moves.push(new Move(0,0,'',map,0,pieceCount));
     renderBoard('white','/images/pieces/',map);
 }
 
-function undo(){
+function undo(times=1){
     console.log('undo');
     if(moveNumber>0 ){
-        moves.pop();
+        for(i=0;i<times;i++)
+          moves.pop();
         moveNumber=moves.length-1;
         console.log(moves);
         console.log(moveNumber);
@@ -2614,8 +2741,10 @@ function undo(){
         wpieceCount=moves[moveNumber].pieceCount[0].slice();
         bpieceCount=moves[moveNumber].pieceCount[1].slice();
         renderRandom(moveNumber);
-        loggedMoves.pop();
+        for(i=0;i<times;i++)
+           loggedMoves.pop();
        // displayLoggedMoves(loggedMoves);
+       if(times%2!=0)
         turn = turn == 'w' ? 'b' : 'w';
 
         console.log('ps:',pre_act_sq_id,'cs:', curnt_act_sq_cl, turn);
@@ -2626,11 +2755,8 @@ function undo(){
 //fen = '4R1K1/1P3P1P/4B3/8/8/1p4p1/p1b2p1p/4rk2 w - - - -';
 //console.log(fen.split(' ')[0].split('/'));
 
-
-
-
 function puzzleResponse(move,puzzle){
-    console.log("hello",level);
+    console.log("hello",puzzle);
     var obj;
     switch(level){case 'one': obj=puzzle.moves.one; break; case 'two': obj=puzzle.moves.two; break; case 'three': obj=puzzle.moves.three };
 
@@ -2649,11 +2775,11 @@ function puzzleResponse(move,puzzle){
             response = e[move].response;
             dialogue = e[move].dialogue;
             displayDialogue(dialogue).then((message)=>{
-                console.log(message);
                 if(correct)
+               // onEngineMove(5);
                 makeMove(response,turn);
                 else{
-                    undo();
+                    showButtons();
                 }
             });
             
@@ -2662,13 +2788,191 @@ function puzzleResponse(move,puzzle){
                 if(!e[move].final){
                     switch(level){case 'one': level='two'; break; case 'two': level='three'; break; case 'three': level='four'; break;}
                 }
+                else{
+                    document.querySelector('.nextPuzzleButton').classList.remove('hide');
+                    current_puzzle+=1;
+                }
             }
         }
     });
 
     if(!foundCorrect&&defaultDialogue!=""){
         displayDialogue(defaultDialogue).then((message)=>{
-            undo();
+            showButtons();
         });
     }
+}
+
+window.addEventListener('resize',()=>{
+    pos=board.getBoundingClientRect();
+    board_x = pos.left;
+    board_y= pos.top+window.scrollY;
+    sqr_size = Math.floor((pos.width)/8);
+    renderRandom(moves.length-1);
+});
+
+function toastMessage(message) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML=message;
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function responseMethod(method,response,depth=5){
+    switch(method){
+        case 'puzzleResponse': return puzzleResponse(response); break;
+        case 'onEngineMove': return onEngineMove(depth); break;
+        default: return;
+    }
+}
+
+function onEngineMove(depth=2){
+    str=mapToFen(map);
+    stockfish.postMessage("position "+str);
+    stockfish.postMessage('go depth '+depth);
+    stockfish.postMessage('eval');
+
+    stockfish.onmessage = function(event){
+        msg = event.data;
+        if(msg.match('bestmove')){
+            mv = msg.substr(9,5).trim();
+            makeMove(mv,'b');
+        }
+        if(msg.match('mate 0')){
+            if(msg)
+            alert('mate!!');
+        }
+    }
+}
+
+function showButtons(){
+    if(goneRogue){
+        
+        tmp = document.querySelector('.rogue1');
+        if(tmp!=null&&tmp!=""){
+            document.querySelector('.rightpanel').removeChild(tmp);
+            tmp = document.querySelector('.rogue2');
+            document.querySelector('.rightpanel').removeChild(tmp);
+            moveAfterRogueMode++;
+        }
+        else{
+            moveAfterRogueMode++;
+        }
+
+        var btn1=document.createElement('button');
+        var btn2=document.createElement('button');
+        btn1.classList.add('dialogue');
+        btn1.classList.add('dialogue_clickable');
+        btn1.classList.add('rogue1');
+        btn2.classList.add('dialogue');
+        btn2.classList.add('dialogue_clickable');
+        btn2.classList.add('rogue2');
+        btn1.innerHTML = 'Go back to original position';
+        btn2.innerHTML = 'Evaluate this position';
+    
+        document.querySelector('.rightpanel').appendChild(btn1);
+        document.querySelector('.rightpanel').appendChild(btn2);
+    
+        //Add event listeners
+    
+        btn1.addEventListener('click',()=>{
+            console.log('will try to undo ', moveAfterRogueMode);
+            undo(moveAfterRogueMode);
+            goneRogue=false;
+            moveAfterRogueMode=0;
+        });
+        btn2.addEventListener('click',()=>{
+            stockfish.postMessage('fen '+ mapToFen(map));
+            stockfish.postMessage('go depth 15');
+            stockfish.onmessage = function(event){
+                msg = event.data;
+                console.log(msg);
+                if(msg.match('bestmove')){
+                    mv = msg.substr(9,5).trim();
+                    makeMove(mv,'b');
+                }
+                if(msg.match('mate 0')){
+                    if(msg)
+                    alert('mate!!');
+                }
+            }
+        });
+
+        onEngineMove();
+        moveAfterRogueMode++;
+    }
+    else{
+        var btn1=document.createElement('button');
+        var btn2=document.createElement('button');
+        var btn3=document.createElement('button');
+        btn1.classList.add('dialogue');
+        btn1.classList.add('dialogue_clickable');
+        btn2.classList.add('dialogue');
+        btn2.classList.add('dialogue_clickable');
+        btn3.classList.add('dialogue');
+        btn3.classList.add('dialogue_clickable');
+    
+        btn1.innerHTML = 'Let me continue with this move';
+        btn2.innerHTML = 'Ok, I will try something else';
+        btn3.innerHTML = 'Evaluate this position';
+    
+        document.querySelector('.rightpanel').appendChild(btn2);
+        document.querySelector('.rightpanel').appendChild(btn1);
+        document.querySelector('.rightpanel').appendChild(btn3);
+    
+        //Add event listeners
+    
+        btn1.addEventListener('click',()=>{
+            onEngineMove();
+            goneRogue=true;
+            moveAfterRogueMode+=2;
+        });
+        btn2.addEventListener('click',()=>{
+            undo();
+            goneRogue=false;
+        });
+
+        btn3.addEventListener('click',()=>{
+            stockfish.postMessage('fen '+ mapToFen(map));
+            stockfish.postMessage('go depth 15');
+            stockfish.onmessage = function(event){
+                msg = event.data;
+                console.log(msg);
+                if(msg.match('bestmove')){
+                    mv = msg.substr(9,5).trim();
+                    makeMove(mv,'b');
+                }
+                if(msg.match('score')){
+                    console.log('real message',msg.substr(msg.match('score').index+4,msg.match(nodes)-msg.match('score').index+4));
+                    alert('mate!!');
+                }
+            }
+        })
+       // btn2.addEventListener('click',undo());
+        //btn3.addEventListener('click',''); 
+    }
+    
+}
+
+
+function evaluate(){
+
+ stockfish.postMessage('position '+ mapToFen(map));
+            stockfish.postMessage('go depth 15');
+            stockfish.onmessage = function(event){
+                msg = event.data;
+                console.log(msg);
+                    console.log('real message',contentBetween(msg,'score','nodes'));
+                    console.log('moves',contentBetween(msg,'pv','bmc'));
+            }
+}
+
+function contentBetween(main,str1,str2){
+    if(main.match(str1))
+    var start = main.match(str1).index+str1.length;
+    else return;
+    if(main.match(str2))
+    var length = main.match(str2).index-start;
+    else var length = main.length-start;
+    return main.substr(start,length);
 }
