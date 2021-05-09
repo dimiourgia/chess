@@ -20,15 +20,17 @@
 <div class='player-1'>
 </div>
 <div id="board" class="board">
+  <div class='overlay' style="position: absolute; width: 100px; height: 100px; background-color: azure;"></div>
 </div>
+
 <div class='player-2'></div>
 </div>
 	<div class="rightpanel">
-		
+		<button class='nextPuzzleButton hide' onclick="loadPuzzle(puzzle[current_puzzle])">Next</button>
 	</div>
 
 </div>
-
+<div id="snackbar">Some text some message..</div>
 </body>
 <script src="js/puzzles.js"></script>
 </html>
