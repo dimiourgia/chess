@@ -39,9 +39,9 @@ class Move{
 }
 var speeds = {
     pause:500,
-    slow:120,
-    normal:60,
-    fast:30,
+    slow:60,
+    normal:30,
+    fast:10,
 }  
 map=    [
             ["wr","wn","wb","wq","wk","wb","wn","wr"],
@@ -63,8 +63,9 @@ for(i=0;i<8;i++)
 renderBoard('white','/images/pieces/',map);
 var stockfish = new Worker('/js/stockfish.asm.js');
 
-var puzzle=[{
-    fen: '4R1K1/1P3P1P/4B3/8/8/1p4p1/p1b2p1p/4rk2 w - - - -',
+var puzzle=[
+    {
+    fen: '4rk2/p1b2p1p/1p4p1/8/8/4B3/1P3P1P/4R1K1 w - - - -',
     event: '',
     white: 'Magnus Carlsen',
     black: 'Hikaru Nakmura',
@@ -95,8 +96,6 @@ var puzzle=[{
                     {string:'Try finding a more forcing move for a mating net', delay:speeds.normal}
                 ]
             },
-                
-    
         ],
         two:[
             {
@@ -118,8 +117,8 @@ var puzzle=[{
     }
    
 },
-{
-fen: 'R7/8/8/8/8/1P7/pp6/kbK5 w - - - -',
+{   
+fen: 'kbK5/pp6/1P7/8/8/8/8/R7 w - _ _ 0 1',
 event: 'Imaginary',
 white: 'Magnus Carlsen',
 black: 'Hikaru Nakmura',
@@ -130,77 +129,23 @@ levels: 2,
 moves:{
     one:[
         {
-            1121:{response: 'b8d6', correct: true, final: false, 
+            1161:{response: 'b8d6', correct: true, final: false, 
                 dialogue:[
                     { string:'Thats it!', delay:speeds.fast },
-                    { string: 'black king has only one move kb8', delay:speeds.normal },
-                    {string: 'finally deliver the checkmate', delay:speeds.fast}
+                    { string: 'black has no choice but to move the bishop away from the defence of  a7 pawn', delay:speeds.normal },
+                    {string: 'deliver the final blow', delay:speeds.fast}
                 ]
                 }
         },
-        {
-            1131:{response: 'b8d6', correct: true, final: false, 
-                dialogue:[
-                    { string:'Thats it!', delay:speeds.fast },
-                    { string: 'black king has only one move kb8', delay:speeds.normal },
-                    {string: 'finally deliver the checkmate', delay:speeds.fast}
-                ]
-                }
-        },
-        {
-            1141:{response: 'b8d6', correct: true, final: false, 
-                dialogue:[
-                    { string:'Thats it!', delay:speeds.fast },
-                    { string: 'black king has only one move kb8', delay:speeds.normal },
-                    {string: 'finally deliver the checkmate', delay:speeds.fast}
-                ]
-                }
-        },
-        {
-            1151:{response: 'b8d6', correct: true, final: false, 
-                dialogue:[
-                    { string:'Thats it!', delay:speeds.fast },
-                    { string: 'black king has only one move kb8', delay:speeds.normal },
-                    {string: 'finally deliver the checkmate', delay:speeds.fast}
-                ]
-                }
-        },
-
         {
             defaultText:[
                 {string:'This is gonna take longer. There is a much quicker way to checkmate! up blak', delay:speeds.normal}
             ]
         },
-            
-
     ],
     two:[
         {
-            2171:{response: '', correct: true, final: true,                                                                
-                dialogue:[
-                    { string:'Congratualations!', delay:speeds.fast },
-                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
-                ]
-                }
-        },
-        {
-            3171:{response: '', correct: true, final: true,                                                                
-                dialogue:[
-                    { string:'Congratualations!', delay:speeds.fast },
-                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
-                ]
-                }
-        },
-        {
-            4171:{response: '', correct: true, final: true,                                                                
-                dialogue:[
-                    { string:'Congratualations!', delay:speeds.fast },
-                    { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
-                ]
-                }
-        },
-        {
-            5171:{response: '', correct: true, final: true,                                                                
+            6171:{response: '', correct: true, final: true,                                                                
                 dialogue:[
                     { string:'Congratualations!', delay:speeds.fast },
                     { string: 'You are an excellent finder of mate in two moves', delay:speeds.normal },
@@ -216,7 +161,50 @@ moves:{
     
 }
 },
-
+{
+    fen: '3qr2k/pbpp2pp/1p5N/3Q4/2P1P3/P7/1PP2PPP/R4RK1 w - _ _ 0 1',
+    event: 'Imaginary',
+    white: 'Magnus Carlsen',
+    black: 'Hikaru Nakmura',
+    intro: {dialogue:[
+        {string:'The game is played in venice in 2015'}
+    ]}, 
+    moves:{
+    one:[
+        {
+            5487:{response: 'e8g8', correct: true, final: false, 
+                dialogue:[
+                    { string:'Excellent Move!', delay:speeds.fast },
+                ]
+                }
+        },
+        {
+            defaultText:[
+                {string:'That is not the move', delay:speeds.normal}
+            ]
+        },
+    ],
+    two:[
+        {
+            6876:{response: '', correct: true, final: true,                                                                
+                dialogue:[
+                    { string:'Congratualations!', delay:speeds.fast },
+                    { string: 'for you smothering abilities', delay:speeds.normal },
+                ]
+                }
+        },
+        {
+            defaultText:[
+                {string:'There is a mate in one move', delay: speeds.normal}
+            ]
+        },
+    ],
+}
+},
+{
+    fen: '2r2rk1/5pPp/p2pb3/q7/4PQP1/p7/1PP5/1K1R1B1R b - - 0 1',
+    moves:{}
+}
 ];
 
 loadPuzzle(puzzle[0]);
@@ -225,9 +213,6 @@ var level = 'one';var pre_ar=[];var curnt_act_sq_cl = "";var pre_act_sq_cl = "";
 var mouseEventAdded = false;
 var goneRogue=false;
 var moveAfterRogueMode=0;
-
-
-
 
 class LoggedMoves{
     constructor(log,piece,moveNumber){
@@ -263,6 +248,7 @@ function startDrag(e) {
     }
     if(e.preventDefault) e.preventDefault();
 
+    if(curnt_act_sq_cl!=''&&moves[moves.length-1].curnt_act_squr!=curnt_act_sq_cl) removeActive(moves[moves.length-1].curnt_act_squr);
     // IE uses srcElement, others use target
     targ = e.target ? e.target : e.srcElement;
     if(targ.className!='piece') {drag=false; return;}
@@ -274,7 +260,7 @@ function startDrag(e) {
     drgend=true;
     pre_act_sq_id='#'+targ.id;
     curnt_act_sq_cl='.'+targ.id;
-
+    makeActive(curnt_act_sq_cl);
 
     drag = true;
     // move div element
@@ -321,16 +307,17 @@ function dragDiv(e) {
     return false;
 }
 function stopDrag(e) {
-    if(pre!="")  document.querySelector(pre).style.outline='0px';
-     console.log('dragend executed', touchDevice);
-     var x= Math.ceil((e.pageX-board_x)/sqr_size);
-    var y= Math.ceil((e.pageY-board_y)/sqr_size);
+    if(pre!="")  document.querySelector(pre).style.outline='0px'
+        var x= Math.ceil((e.pageX-board_x)/sqr_size);
+        var y= Math.ceil((e.pageY-board_y)/sqr_size);
         cx =x;
         cy=y;
-    if(flipped){
-        y = 8-y+1;
-    }
-    
+        if(flipped){
+            y = 8-y+1;
+        }
+        else{
+            x=8-x+1;
+        }
 
     var yl = curnt_act_sq_cl.substr(8,1);
    var xl = curnt_act_sq_cl.substr(10,1);
@@ -370,9 +357,6 @@ function stopDrag(e) {
             incheck=true;
         } 
         else incheck=false;
-
-
-        console.log(incheck,"is in check", yl, xl, y , x, curnt_act_piece);
 
 
     if(isPossibleMove(curnt_act_piece,tn(yl,xl),tn(y,x))&&!incheck){
@@ -468,7 +452,6 @@ console.log(goahead,'goahead');
                 showpp=false;
                 if(curnt_act_piece[1]=='p'){
                     if(y==8||y==1){
-                        curnt_act_piece[0]=='w';
                         brd=document.querySelector('.board');
                         ch = document.createElement('span');
                         ch.setAttribute('class','pp');
@@ -553,13 +536,12 @@ console.log(goahead,'goahead');
                 else turn='w';
                 moveLogger(move,captured,castled,castleType);
                 castled=false;
-                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
+                if(!(curnt_act_piece[1]=='p'&&(y==1||y==8)))
                     puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
                 }
             }
         }
 		else{
-            console.log('this is executed');
 			var child = document.querySelector(pre_act_sq_id);
             if(flipped) yl=8-yl+1;
             else xl=8-xl+1;
@@ -585,7 +567,6 @@ console.log(goahead,'goahead');
 }
 
 window.onload = function() {
-    console.log('touchdevice', touchDevice);
     if(!touchDevice){
         document.querySelector('#board').addEventListener('mousedown',startDrag);
         document.querySelector('#board').addEventListener('mouseup',stopDrag);
@@ -735,7 +716,7 @@ board.addEventListener('touchstart',(e)=>{
                // square.appendChild(newImg);
                 var preSquare = document.querySelector(pre_act_sq_cl);
                 var child = document.querySelector(pre_act_sq_id);
-             //   preSquare.removeChild(child);
+              //  preSquare.removeChild(child);
 
                 if(map[y-1][x-1]!=""){
                     var tmp = document.querySelector(".square_"+y+"x"+x);
@@ -886,10 +867,11 @@ function pawnPromote(piece,row,col){
     loggedMoves.pop();
     moveLogger(moves[moves.length-1],moves[moves.length-1].captured);
     showpp=false;
-    onEngineMove();
+    puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
 }
 
 function moveLogger(move,captured=false,castled=false,ct=""){
+    return;4
    var clm="";
    var p = "";
    var rw = Math.floor(move.to/10)
@@ -905,8 +887,6 @@ function moveLogger(move,captured=false,castled=false,ct=""){
                      if(map[i][j]==move.piece&&((i+1)*10+j+1)!=move.to*1) op=((i+1)*10+j+1);
                  }
                 }
-                console.log('other pos:',op);
-
              opmoves = allPossibleMoves(move.piece,op,moves[move.moveNumber-1].map_c);
              console.log(opmoves);
              for(i=0;i<opmoves.length;i++){
@@ -1027,10 +1007,12 @@ if(classname!=""){
 }
 }
 
-function removeActive(){
+function removeActive(cl=''){
 var q= document.querySelectorAll('.active');
 upto = q.length;
 for(i=0;i<upto;i++) q[i].classList.remove('active');
+
+if(cl!='') makeActive(cl);
 }
 
 function removePreActive(){
@@ -1942,157 +1924,157 @@ for(i=0;i<8;i++){
 }
 
 function animateMove(move_number,direction,_to="",_from=""){
-var move_number = move_number
-var direction = direction;
-var move = moves[move_number];
-
-if(direction == 'forward'){
-    to = moves[move_number].from;
-    from  = moves[move_number].to;
-}
-
-if( direction == 'backwards'){
-    from = moves[move_number+1].from;
-    to   = moves[move_number+1].to;
-}
-
-
-
-
-fx=Math.floor(from/10);
-fy=from%10;
-
-tx = Math.floor(to/10);
-ty = Math.floor(to%10);
-
-if(_to!=""&&_from!=""){
-    fx=Math.floor(_from/10);
-    fy=_from%10;
-
-    tx = Math.floor(_to/10);
-    ty = Math.floor(_to%10);
-}
-
-var elem = document.querySelector("#square_"+fx+"x"+fy);
-
-if(fromTouch){
-    console.log(tx,ty);
-    var elem = document.querySelector("#square_"+tx+'x'+ty);
-    fromTouch=false;
-} 
-    if(flipped){
-        fx=8-fx+1;
-        tx=8-tx+1
+    var move_number = move_number
+    var direction = direction;
+    var move = moves[move_number];
+    
+    if(direction == 'forward'){
+        to = moves[move_number].from;
+        from  = moves[move_number].to;
     }
-    else {
-        fy=8-fy+1;
-        ty=8-ty+1;
+    
+    if( direction == 'backwards'){
+        from = moves[move_number+1].from;
+        to   = moves[move_number+1].to;
     }
-    elem.style.top = (tx-1)*sqr_size + 'px';
-    elem.style.left = (ty-1)*sqr_size + 'px';
-
-    diff_row = (tx-fx)*sqr_size;
-    diff_col = (ty-fy)*sqr_size;
-        
-    var id = setInterval(frame, 2);
-    initial_left = (ty-1)*sqr_size;
-    initial_top = (tx-1)*sqr_size;
-    final_left = (fy-1)*sqr_size;
-    final_top = (fx-1)*sqr_size;
-  async function frame() {
-
-        sp = 3.3;
-        r = 2;
-
-        if(diff_row>0){
-            if(diff_col!=0){
-                var scale = (tx-fx)/(ty-fy);
-                if(initial_top<final_top+r&& initial_top>final_top-r){
-                    clearInterval(id);
-                    elem.style.left = final_left+'px';
-                    elem.style.top = final_top+'px';
-                    if(move.captured&&direction=='forward') playAudio('captured',direction);
-                    else playAudio('move',direction);
-                  
-                }
-                else{
-                    initial_top-=sp;
-                    initial_left-=sp/scale;
-                    elem.style.left = initial_left+'px';
-                    elem.style.top = initial_top+'px';
-                }
-            }
+    
+    
+    
+    
+    fx=Math.floor(from/10);
+    fy=from%10;
+    
+    tx = Math.floor(to/10);
+    ty = Math.floor(to%10);
+    
+    if(_to!=""&&_from!=""){
+        fx=Math.floor(_from/10);
+        fy=_from%10;
+    
+        tx = Math.floor(_to/10);
+        ty = Math.floor(_to%10);
+    }
+    
+    var elem = document.querySelector("#square_"+fx+"x"+fy);
+    
+    if(fromTouch){
+        console.log(tx,ty);
+        var elem = document.querySelector("#square_"+tx+'x'+ty);
+        fromTouch=false;
+    } 
+        if(flipped){
+            fx=8-fx+1;
+            tx=8-tx+1
+        }
+        else {
+            fy=8-fy+1;
+            ty=8-ty+1;
+        }
+        elem.style.top = (tx-1)*sqr_size + 'px';
+        elem.style.left = (ty-1)*sqr_size + 'px';
+    
+        diff_row = (tx-fx)*sqr_size;
+        diff_col = (ty-fy)*sqr_size;
             
-            else{//vertically upward slide
-                if(initial_top<final_top+r&& initial_top>final_top-r){
-                    clearInterval(id);
-                    elem.style.left = final_left+'px';
-                   elem.style.top = final_top+'px';
-                   if(move.capture&&direction=='forward') playAudio('captured',direction);
-                    else playAudio('move',direction);
+        var id = setInterval(frame, 2);
+        initial_left = (ty-1)*sqr_size;
+        initial_top = (tx-1)*sqr_size;
+        final_left = (fy-1)*sqr_size;
+        final_top = (fx-1)*sqr_size;
+      async function frame() {
+    
+            sp = 3.3;
+            r = 2;
+    
+            if(diff_row>0){
+                if(diff_col!=0){
+                    var scale = (tx-fx)/(ty-fy);
+                    if(initial_top<final_top+r&& initial_top>final_top-r){
+                        clearInterval(id);
+                        elem.style.left = final_left+'px';
+                        elem.style.top = final_top+'px';
+                        if(move.captured&&direction=='forward') playAudio('captured',direction);
+                        else playAudio('move',direction);
+                      
+                    }
+                    else{
+                        initial_top-=sp;
+                        initial_left-=sp/scale;
+                        elem.style.left = initial_left+'px';
+                        elem.style.top = initial_top+'px';
+                    }
                 }
-                else{
-                    initial_top-=sp;
-                    elem.style.top = initial_top+'px';
+                
+                else{//vertically upward slide
+                    if(initial_top<final_top+r&& initial_top>final_top-r){
+                        clearInterval(id);
+                        elem.style.left = final_left+'px';
+                       elem.style.top = final_top+'px';
+                       if(move.capture&&direction=='forward') playAudio('captured',direction);
+                        else playAudio('move',direction);
+                    }
+                    else{
+                        initial_top-=sp;
+                        elem.style.top = initial_top+'px';
+                    }
+                }
+    
+            }
+            else if(diff_row<0){
+                if(diff_col!=0){
+                    var scale = (tx-fx)/(ty-fy);
+                    if(initial_top<final_top+r&& initial_top>final_top-r){
+                        clearInterval(id);
+                        elem.style.left = final_left+'px';
+                        elem.style.top = final_top+'px';
+                        if(move.captured&&direction=='forward') playAudio('captured',direction);
+                        else playAudio('move',direction);
+                    }
+                    else{
+                        initial_top+=sp;
+                        if(direction=='backward')
+                          initial_left-=sp/scale;
+                        else initial_left+=sp/scale;
+                        elem.style.left = initial_left+'px';
+                        elem.style.top = initial_top+'px';
+                    }
+                }
+                else{//vertically downward slide
+                    if(initial_top<final_top+r&& initial_top>final_top-r){
+                        clearInterval(id);
+                        elem.style.left = final_left+'px';
+                       elem.style.top = final_top+'px';
+                       if(move.captured&&direction=='forward') playAudio('captured',direction);
+                        else playAudio('move',direction);
+                    }
+                    else{
+                        initial_top+=sp;
+                        elem.style.top = initial_top+'px';
+                    }
                 }
             }
-
-        }
-        else if(diff_row<0){
-            if(diff_col!=0){
-                var scale = (tx-fx)/(ty-fy);
-                if(initial_top<final_top+r&& initial_top>final_top-r){
-                    clearInterval(id);
-                    elem.style.left = final_left+'px';
+            else{
+                //horizontal slide
+                if(initial_left<final_left+1 && initial_left>final_left-1){
+                     clearInterval(id);
+                     elem.style.left = final_left+'px';
                     elem.style.top = final_top+'px';
                     if(move.captured&&direction=='forward') playAudio('captured',direction);
-                    else playAudio('move',direction);
+                        else playAudio('move',direction);
                 }
-                else{
-                    initial_top+=sp;
-                    if(direction=='backward')
-                      initial_left-=sp/scale;
-                    else initial_left+=sp/scale;
-                    elem.style.left = initial_left+'px';
-                    elem.style.top = initial_top+'px';
-                }
-            }
-            else{//vertically downward slide
-                if(initial_top<final_top+r&& initial_top>final_top-r){
-                    clearInterval(id);
-                    elem.style.left = final_left+'px';
-                   elem.style.top = final_top+'px';
-                   if(move.captured&&direction=='forward') playAudio('captured',direction);
-                    else playAudio('move',direction);
-                }
-                else{
-                    initial_top+=sp;
-                    elem.style.top = initial_top+'px';
-                }
-            }
-        }
-        else{
-            //horizontal slide
-            if(initial_left<final_left+1 && initial_left>final_left-1){
-                 clearInterval(id);
-                 elem.style.left = final_left+'px';
-                elem.style.top = final_top+'px';
-                if(move.captured&&direction=='forward') playAudio('captured',direction);
-                    else playAudio('move',direction);
-            }
-                else{
-                    if(diff_col>0){//slide left
-                        initial_left-=1.5;
-                        elem.style.left=initial_left+'px';
+                    else{
+                        if(diff_col>0){//slide left
+                            initial_left-=1.5;
+                            elem.style.left=initial_left+'px';
+                        }
+                        else if (diff_col<0){// slide right
+                            initial_left+=1.5;
+                            elem.style.left=initial_left+'px';
+                        }
                     }
-                    else if (diff_col<0){// slide right
-                        initial_left+=1.5;
-                        elem.style.left=initial_left+'px';
-                    }
-                }
+            }
         }
     }
-}
 
 class Pc{
     constructor(count,piece){
@@ -2104,6 +2086,8 @@ class Pc{
 function showCaptured(move){
     p1=document.querySelector('.player-1');
     p2=document.querySelector('.player-2');
+
+    if(p1==null || p2==null) return;
     p1.innerHTML="";
     p2.innerHTML="";
     var wpieceCount = move.pieceCount[0];
@@ -2307,6 +2291,7 @@ function flipOnClick(move_number=currently_rendering){
     p2=document.querySelector('.player-2');
     if(flipped){
         renderBoard('black','/images/pieces/',moves[move_number].map_c);
+        if(p1!=null&&p2!=null){
         p1.classList.remove('player-1');
         p1.classList.add('player-2');
         p2.classList.remove('player-2');
@@ -2316,6 +2301,7 @@ function flipOnClick(move_number=currently_rendering){
         p1.style.marginTop=10+'px';
         p2.style.marginBottom=0+'px';
         p2.style.marginTop=0+'px';
+        }
      
     }
     else{
@@ -2497,6 +2483,7 @@ function makeMove(m,c){
     var y= tr;
     var Id = "square_"+y+"x"+x;
     var className = ".square_"+y+"x"+x;
+    curnt_act_sq_cl=className;
     yl = fr;
     xl = fc;
     pre_act_sq_id = "#square_"+yl+"x"+xl;
@@ -2559,10 +2546,10 @@ function makeMove(m,c){
                                     doCastle(curnt_act_piece[0],'short');
                                     goahead=true;
                                 }
-                                else if(canCastle(curnt_act_piece[0],'long')){
-                                    doCastle(curnt_act_piece[0],'long');
-                                    goahead=true;
-                                }
+                            }
+                            else if(canCastle(curnt_act_piece[0],'long')){
+                                doCastle(curnt_act_piece[0],'long');
+                                goahead=true;
                             }
                         }
                     }
@@ -2626,6 +2613,7 @@ function makeMove(m,c){
             }
 
             renderMove(moves[moveNumber]);
+            evaluate();
 }
 
 async function displayDialogue(dialogue,timeout=0){
@@ -2695,8 +2683,9 @@ function revealCharacter(list){
 function fenToMap(fen){
     var map=[["","","","","","","",""],["","","","","","","",""],["","","","","","","",""],["","","","","","","",""],["","","","","","","",""],["","","","","","","",""],["","","","","","","",""],["","","","","","","",""]];
     str = fen.split(' ')[0].split('/');
+    console.log(str);
     for(i=0;i<8;i++){
-        var tmp = str[i];
+        var tmp = str[7-i];
         k=0;
         for(z=0;z<tmp.length;z++){
             if(!(tmp[z].toLowerCase() != tmp[z].toUpperCase())){
@@ -2715,17 +2704,29 @@ function fenToMap(fen){
     return map;
 }
 
-function loadPuzzle(puzzle){
+function loadPuzzle(puzzle,pn=0){
+    if(pn!=0) current_puzzle = pn;
+    tmp = document.querySelector('.nextPuzzleButton');
+    if(!tmp.classList.contains('hide')) tmp.classList.add('hide');
     level ='one';
     map = fenToMap(puzzle.fen);
     turn = puzzle.fen.split(' ')[1];
     player1= (turn=='w')? 'white':'black';
+  
     moves = [];
     wpieceCount = [0,0,0,0,0,0];
     bpieceCount = [0,0,0,0,0,0];
     initializePieceCount();
     moves.push(new Move(0,0,'',map,0,pieceCount));
+    moveNumber=0;
+    currently_rendering=0;
     renderBoard('white','/images/pieces/',map);
+    if(player1=='black'){
+        flipOnClick();
+        document.querySelector('.eval_div').classList.add('eval_div_flip');
+        document.querySelector('.eval_bar').classList.add('eval_bar_flip');
+    }
+    evaluate();
 }
 
 function undo(times=1){
@@ -2756,6 +2757,7 @@ function undo(times=1){
 //console.log(fen.split(' ')[0].split('/'));
 
 function puzzleResponse(move,puzzle){
+    evaluate();
     console.log("hello",puzzle);
     var obj;
     switch(level){case 'one': obj=puzzle.moves.one; break; case 'two': obj=puzzle.moves.two; break; case 'three': obj=puzzle.moves.three };
@@ -2764,43 +2766,54 @@ function puzzleResponse(move,puzzle){
     var foundCorrect = false;
     var defaultDialogue =  "";
 
-    obj.forEach((e)=>{
-        if(e.hasOwnProperty('defaultText')){
-            defaultDialogue = e.defaultText;
-            console.log("df",defaultDialogue);
-        }
-        if(e.hasOwnProperty(move)){
-            foundCorrect = true;
-            correct = e[move].correct;
-            response = e[move].response;
-            dialogue = e[move].dialogue;
-            displayDialogue(dialogue).then((message)=>{
-                if(correct)
-               // onEngineMove(5);
-                makeMove(response,turn);
-                else{
-                    showButtons();
+    if(obj!=undefined){
+        obj.forEach((e)=>{
+            if(e.hasOwnProperty('defaultText')){
+                defaultDialogue = e.defaultText;
+                console.log("df",defaultDialogue);
+            }
+            if(e.hasOwnProperty(move)){
+                foundCorrect = true;
+                correct = e[move].correct;
+                response = e[move].response;
+                dialogue = e[move].dialogue;
+                if(correct) {
+                    document.querySelector(curnt_act_sq_cl).style.background = 'rgb(78 162 15 / 50%)';
                 }
-            });
-            
-            //makeMove(response,turn);
-            if(correct){
-                if(!e[move].final){
-                    switch(level){case 'one': level='two'; break; case 'two': level='three'; break; case 'three': level='four'; break;}
-                }
-                else{
-                    document.querySelector('.nextPuzzleButton').classList.remove('hide');
-                    current_puzzle+=1;
+                displayDialogue(dialogue).then((message)=>{
+                    if(correct){
+                        // onEngineMove(5);
+                        makeMove(response,turn);
+
+                    }
+                
+                    else{
+                        showButtons();
+                    }
+                });
+                
+                //makeMove(response,turn);
+                if(correct){
+                    if(!e[move].final){
+                        switch(level){case 'one': level='two'; break; case 'two': level='three'; break; case 'three': level='four'; break;}
+                    }
+                    else{
+                        document.querySelector('.nextPuzzleButton').classList.remove('hide');
+                        el = document.querySelector(".rightpanel");
+                        el.scrollTop = el.scrollHeight - el.clientHeight;
+                        current_puzzle+=1;
+                    }
                 }
             }
-        }
-    });
-
-    if(!foundCorrect&&defaultDialogue!=""){
-        displayDialogue(defaultDialogue).then((message)=>{
-            showButtons();
         });
+
+        if(!foundCorrect&&defaultDialogue!=""){
+            displayDialogue(defaultDialogue).then((message)=>{
+                showButtons();
+            });
+        }
     }
+    else onEngineMove();
 }
 
 window.addEventListener('resize',()=>{
@@ -2904,21 +2917,17 @@ function showButtons(){
     else{
         var btn1=document.createElement('button');
         var btn2=document.createElement('button');
-        var btn3=document.createElement('button');
+   
         btn1.classList.add('dialogue');
         btn1.classList.add('dialogue_clickable');
         btn2.classList.add('dialogue');
         btn2.classList.add('dialogue_clickable');
-        btn3.classList.add('dialogue');
-        btn3.classList.add('dialogue_clickable');
     
         btn1.innerHTML = 'Let me continue with this move';
         btn2.innerHTML = 'Ok, I will try something else';
-        btn3.innerHTML = 'Evaluate this position';
-    
+        
         document.querySelector('.rightpanel').appendChild(btn2);
         document.querySelector('.rightpanel').appendChild(btn1);
-        document.querySelector('.rightpanel').appendChild(btn3);
     
         //Add event listeners
     
@@ -2932,22 +2941,6 @@ function showButtons(){
             goneRogue=false;
         });
 
-        btn3.addEventListener('click',()=>{
-            stockfish.postMessage('fen '+ mapToFen(map));
-            stockfish.postMessage('go depth 15');
-            stockfish.onmessage = function(event){
-                msg = event.data;
-                console.log(msg);
-                if(msg.match('bestmove')){
-                    mv = msg.substr(9,5).trim();
-                    makeMove(mv,'b');
-                }
-                if(msg.match('score')){
-                    console.log('real message',msg.substr(msg.match('score').index+4,msg.match(nodes)-msg.match('score').index+4));
-                    alert('mate!!');
-                }
-            }
-        })
        // btn2.addEventListener('click',undo());
         //btn3.addEventListener('click',''); 
     }
@@ -2956,23 +2949,144 @@ function showButtons(){
 
 
 function evaluate(){
-
  stockfish.postMessage('position '+ mapToFen(map));
             stockfish.postMessage('go depth 15');
             stockfish.onmessage = function(event){
                 msg = event.data;
-                console.log(msg);
-                    console.log('real message',contentBetween(msg,'score','nodes'));
-                    console.log('moves',contentBetween(msg,'pv','bmc'));
+              //  console.log(msg);
+                    var score = contentBetween(msg,'score','nodes');
+              //      console.log('score',score);
+
+                    if(score!=undefined){
+                        if(score.match('cp')){
+                            var val = score.substr(4,score.length-4);
+                            val = val.split(' ')[0];
+                            val = val.trim();
+                            val = val/100;
+
+
+                            upto = Math.ceil(val);
+                                    upto = Math.abs(upto);
+                                    y=1;
+                                    for(i=1;i<upto;i++){
+                                        y = y+y/((i*2.2)+1);
+                                    }
+                                    y=y*10;
+                            
+
+                            if(Math.abs(val)==0) document.querySelector('#eval_bar').style.widh = '50%';
+
+                            if(turn==player1[0].toLowerCase()){
+                                if(val<0){
+                                    y=50-y;
+                                    document.querySelector('#eval_bar').innerHTML=  val;
+                                }
+                                else{
+                                    y=50+y;
+                                    document.querySelector('#eval_bar').innerHTML=  '+'+val;
+                                }
+                                
+                            }
+
+                            else{
+                                if(val<0){
+                                    y=50+y;
+                                    document.querySelector('#eval_bar').innerHTML= '+'+ Math.abs(val);
+                                }
+                                else if(val>0){
+                                    y=50-y;
+                                    document.querySelector('#eval_bar').innerHTML= '-'+val;
+                                }
+                                
+                            }
+
+                            if(y>100) y=98;
+                            if(y<0) y = 1;
+                            document.querySelector('#eval_bar').style.width = y + '%';
+                        }
+
+                        if(score.match('mate')){
+                            score=score.trim();
+                            var mate = score.substr(4,score.length-4).trim();
+                            
+                            if(turn==player1[0].toLowerCase()){
+                                if(mate.match('-')||mate=='0'){
+                                    if(mate.match('-'))
+                                        mate=mate.substr(1,mate.length-1);
+                                    document.querySelector('#eval_bar').style.width = '0%';
+                                    var tmp = document.querySelector('.eval_div');
+                                    tmp.innerHTML = '-M'+mate;
+                                    tmp2 = document.createElement('div');
+                                    tmp2.id='eval_bar';
+                                    tmp2.style.width = '0px';
+                                    tmp2.style.marginRight = '0px';
+                                    tmp.appendChild(tmp2);
+                                    tmp.style.color='white';
+                                    tmp.style.textAlign = 'left';
+                                    tmp.style.marginLeft = '5px';
+                                }
+                                else{
+                                    var mate = score.substr(4,score.length-4).trim();
+                                    document.querySelector('#eval_bar').style.width = '100%';
+                                    document.querySelector('#eval_bar').innerHTML = '+M'+mate;
+                                }   
+                            }
+                            else{
+                                if(mate.match('-')){
+                                    mate=mate.substr(1,mate.length-1);
+                                    var mate = score.substr(4,score.length-4).trim();
+                                    document.querySelector('#eval_bar').style.width = '100%';
+                                    document.querySelector('#eval_bar').innerHTML = '+M'+Math.abs(mate);
+                                }
+                                if(mate*1>0){
+                                    document.querySelector('#eval_bar').style.width = '0%';
+                                    var tmp = document.querySelector('.eval_div');
+                                    tmp.innerHTML = '-M'+mate;
+                                    tmp2 = document.createElement('div');
+                                    tmp2.id='eval_bar';
+                                    tmp2.style.width = '0px';
+                                    tmp2.style.marginRight = '0px';
+                                    tmp.appendChild(tmp2);
+                                    tmp.style.color='white';
+                                    tmp.style.textAlign = 'left';
+                                    tmp.style.marginLeft = '5px';
+                                }
+                                else{
+                                    mate=mate.substr(1,mate.length-1);
+                                    var mate = score.substr(4,score.length-4).trim();
+                                    document.querySelector('#eval_bar').style.width = '100%';
+                                    document.querySelector('#eval_bar').innerHTML = '+M'+Math.abs(mate);
+                                }
+                            }
+                            
+                        }
+                    }
+              //      console.log('moves',contentBetween(msg,'pv','bmc'));
             }
 }
 
 function contentBetween(main,str1,str2){
-    if(main.match(str1))
+    if(!main.match(str1)) return;
     var start = main.match(str1).index+str1.length;
-    else return;
     if(main.match(str2))
     var length = main.match(str2).index-start;
     else var length = main.length-start;
     return main.substr(start,length);
+}
+
+function selectTheme(themeName){
+    document.body.classList.add(themeName);
+    document.querySelector('#board').classList.add('board'+themeName);
+    document.querySelectorAll('.square').forEach((item)=>{
+        x = item.classList[1];
+        console.log(x);
+        item.classList.add(x+themeName);
+    });
+}
+
+function displayOverlayMessage(msg){
+    tmp=document.createElement('div');
+    tmp.classList.add('overlay');
+    tmp.innerHTML=msg;
+    document.querySelector('#board').appendChild(tmp);
 }
