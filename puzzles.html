@@ -17,11 +17,14 @@
 <div class="container">
 	
 <div class='board_player_wrapper'>
-<div class='players_info'>
 
-</div>
 <div id="board" class="board">
   <div class='overlay' style="position: absolute; width: 100px; height: 100px; background-color: azure;"></div>
+</div>
+<div class='players_info'>
+  <div class='eval_div'>
+    <div id='eval_bar' class='eval_bar'></div>
+  </div>
 </div>
 </div>
 
@@ -38,26 +41,34 @@
          
       </svg>
     </button>
-    <button class="btn" onclick="firstBtnOnClick()"></button>
+    <button class="btn" onclick="firstBtnOnClick()">
+      <svg class="svg_first" viewbox='0 0 200 200'>
+        <polygon id="navigate_btn" points="50 100 150 0 150 50 100 100 150 150 150 200"></polygon>
+        <line id='navigate_btn_line' x1='25' y1='0' x2='25' y2='200' style="stroke-width:25"/>
+      </svg>
+    </button>
     <button class="btn" onclick="preBtnOnClick()">
       <svg  class='svg_pre' viewbox='0 0 200 200'>
-        <polygon id='svg_next' fill="rgb(0,0,0)" points="0 100 200 0 200 50 50 100 200 150 200 200"></polygon>
+        <polygon id="navigate_btn" points="0 100 100 0 100 50 50 100 100 150 100 200"></polygon>
      </svg>
     </button>
     <button class="btn" onclick="nextBtnOnClick()">
       <svg class='svg_next' viewbox='0 0 200 200'>
-        <polygon id="Hint-text-Copy-19" fill="rgb(0,0,0)" points="0 0 200 100 0 200 0 150 150 100 0 50"></polygon>
+        <polygon id="navigate_btn"  points="100 0 200 100 100 200 100 150 150 100 100 50"></polygon>
       </svg>
     </button>
-    <button class="btn" onclick="lastBtnOnClick()"></button>
+    <button class="btn" onclick="lastBtnOnClick()">
+      <svg class='svg_last'  viewbox='0 0 200 200'>
+        <polygon id="navigate_btn"  points="50 0 150 100 50 200 50 150 100 100 50 50"></polygon>
+        <line id='navigate_btn_line'  x1='175' y1='0' x2='175' y2='200' style="stroke-width:25"/>
+     </svg> 
+    </button>
   </div>
 </div>
 </div>
 <div id="snackbar">Some text some message..</div>
 
-<div class='eval_div'>
-	<div id='eval_bar' class='eval_bar'></div>
-</div>
+
 
 
 </body>
