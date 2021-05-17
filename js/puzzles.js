@@ -839,7 +839,8 @@ board.addEventListener('touchstart',(e)=>{
                 castled=false;
 
               //  renderRandom(moves.length-1);
-              renderMove(moves[moves.length-1],moves.length-1,true,'forward');
+              //renderMove(moves[moves.length-1],moves.length-1,true,'forward');
+		    animateMove(moves.length-1,'forward');
                 if(!(curnt_act_piece[0]=='p'&&(y==1||y==8)))
                     puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
                 }
