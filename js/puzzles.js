@@ -2007,14 +2007,14 @@ function animateMove(move_number,direction,_to="",_from=""){
         diff_row = (tx-fx)*sqr_size;
         diff_col = (ty-fy)*sqr_size;
             
-        var id = setInterval(frame, 1.5);
+        var id = setInterval(frame, 1);
         initial_left = (ty-1)*sqr_size;
         initial_top = (tx-1)*sqr_size;
         final_left = (fy-1)*sqr_size;
         final_top = (fx-1)*sqr_size;
       async function frame() {
     
-            sp = 3.3;
+            sp = 2.3;
             r = 2;
     
             if(diff_row>0){
