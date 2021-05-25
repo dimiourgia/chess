@@ -6,12 +6,38 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link  rel="stylesheet" href="scss/style.css">
-
+<link rel="stylesheet" href="scss/materialize.min.css">
+<link rel="manifest" href="/manifest.json">
  
 <title>Chess Board</title>
 </head>
-<body style='background-color: rgb(20, 19, 19)'>
+<body class='grey grey-lighten-1'>
+
+	<div class='navbar-fixed'>
+		<nav>
+			  <div class="nav-wrapper grey darken-3">
+				<a href="#" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+			<text class='nav_text'>Home</text>
+				<ul class="left hide-on-med-and-down">
+				</ul>
+			  </div>
+			</nav>
+		</div>
+	  <ul class="sidenav" id="mobile-demo">
+		<li><a href="index.html"><i class="material-icons">home</i>Home</a></li>
+		<li><a href="puzzles.html"><i class="material-icons">extension</i>Puzzles</a></li>
+		<li><a href="chess.html"><i class="material-icons">computer_black_24dp</i> Play Computer</a></li>
+		<li><a href="mobile.html"><i class="material-icons">grid_view</i>Analyse</a></li>
+		<li><a class='sidenav-close' onclick="show_settings()"><i class="material-icons">settings</i>Settings</a></li>
+	  </ul>
+
+	  
+
+
+
+
 	<div class='cards-wrapper'>
 	<div class='card'>
 		<a href='puzzles.html'><img src="images/others/puzzle.png" class='dragme' style='z-index: 10;'></a>
@@ -20,9 +46,57 @@
 		<a href='addPuzzles.html'>Add puzles</a>
 	</div>
 </div>
-
+<img class='move' src='images/pieces/bk.png'>
+<div class='eval_div'>
+	<div id='eval_bar'></div>
+</div>
 </body>
+<style>
+	.move{
+		position: absolute;
+		left: 50%;
+		top:50%;
+		height: 80px;
+		width: 80px;
 
+		transition: left 1s, top 1s;
+	}
+
+
+
+
+
+	.eval_div{
+		position: fixed;
+		bottom:10px;
+		left:50%;
+		margin-left: -250px;
+		margin-top:50px;
+		width:500px;
+		height:30px;
+		background-color: black;
+		transition:left ease 15s;
+	}
+	#eval_bar{
+		margin-left: 0px;
+		width:60%;
+		height:100%;
+		background-color: white;
+		transition: width ease 2s;
+	}
+
+	#eval_bar:hover{
+		left:100px;
+		width: 90%;
+	}
+
+	.eval_div:hover{
+		left: 50px;
+	}
+</style>
 <script src="js/speech.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src='sw.js'></script>
+
 
 </html>
