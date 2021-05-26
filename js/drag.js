@@ -44,6 +44,14 @@ var speeds = {
     normal:30,
     fast:10,
 }  
+
+
+var level = 'one';var pre_ar=[];var curnt_act_sq_cl = "";var pre_act_sq_cl = "";var pre_act_sq_id = "";var curnt_act_piece="";var moveNumber=0;var moves=[];var availBackMoves=0;var flipped=true;var turn='w';var drgend=true;var last_x;var last_y;var hasBkMoved=false;var hasWkMoved=false;var whiteRookKmoved=false;var whiteRookQmoved=false;var BlackRookKmoved=false;var BlackRookQmoved=false;var whiteCastled = false;var blackCastled = false;var canBlackCastle_short=true;var canBlackCastle_long=true;var canWhiteCastle_short=true;var canWhiteCastle_long=true;var castled=false;var castleType='';var wpieceCount = [0,0,0,0,0,0];var bpieceCount = [0,0,0,0,0,0];var en="";var currently_rendering=0;var clickedActive="";var showpp=false;var player1='white';var player2='black';var computer = player2;var checked,mate,captured,promoted;var touchDevice=false;var current_puzzle= 0;var fromTouch=false;
+var mouseEventAdded = false;
+var goneRogue=false;
+var moveAfterRogueMode=0;
+var doEvaluation=false;
+
 map=    [
             ["wr","wn","wb","wq","wk","wb","wn","wr"],
             ["wp","wp","wp","wp","wp","wp","wp","wp"],
@@ -83,11 +91,6 @@ console.log('local storage',localStorage.getItem('showEvalBar'));
 
 
 
-var level = 'one';var pre_ar=[];var curnt_act_sq_cl = "";var pre_act_sq_cl = "";var pre_act_sq_id = "";var curnt_act_piece="";var moveNumber=0;var moves=[];var availBackMoves=0;var flipped=true;var turn='w';var drgend=true;var last_x;var last_y;var hasBkMoved=false;var hasWkMoved=false;var whiteRookKmoved=false;var whiteRookQmoved=false;var BlackRookKmoved=false;var BlackRookQmoved=false;var whiteCastled = false;var blackCastled = false;var canBlackCastle_short=true;var canBlackCastle_long=true;var canWhiteCastle_short=true;var canWhiteCastle_long=true;var castled=false;var castleType='';var wpieceCount = [0,0,0,0,0,0];var bpieceCount = [0,0,0,0,0,0];var en="";var currently_rendering=0;var clickedActive="";var showpp=false;var player1='white';var player2='black';var computer = player2;var checked,mate,captured,promoted;var touchDevice=false;var current_puzzle= 0;var fromTouch=false;
-var mouseEventAdded = false;
-var goneRogue=false;
-var moveAfterRogueMode=0;
-var doEvaluation=true;
 
 
 
@@ -1141,8 +1144,16 @@ function doCastle(color,type){
         newImg = document.createElement('img');
         newImg.src=elem.getAttribute('src');
         newImg.setAttribute('id','square_'+rank+'x'+(file-sub));
-        newImg.style.left = (file-sub-1)*sqr_size+'px';
-        newImg.style.top = (rank-1)*sqr_size+'px';
+        if(flipped){
+            var fnlLeft = (file-sub-1)*sqr_size+'px';
+            var fnlTop = (8-rank)*sqr_size+'px';
+        }
+        else{
+            var fnlLeft = (7-file-sub)*sqr_size+'px';
+            var fnlTop = (rank-1)*sqr_size+'px';
+        }
+        newImg.style.left = fnlLeft;
+        newImg.style.top = fnlTop;
         newImg.setAttribute('class','piece');
         squre.appendChild(newImg);
 
