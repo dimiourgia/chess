@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="scss/materialize.min.css">
-<link  rel="stylesheet" href="scss/style.css">
+<link  rel="stylesheet" href="scss/computer.css">
 <link rel="manifest" href="/manifest.json">
  
 <title>Chess Board</title>
@@ -54,7 +54,7 @@
 	  </div>
 
 	  <div class='container_global'>
-	<div class="container">
+	<div class="container_m">
 		<div style="display: flex; flex-direction: column;">
 			<div class='player-1'></div>
 			<div class='board_player_wrapper_c'>
@@ -70,22 +70,52 @@
 			</div>
 	<div class='player-2'></div>
 	</div>
+	<div class="navigateMoves_m">
+		<button class="bton" onclick="undo()">
+			<i class='material-icons scale_down'>undo</i>
+		</button>
+		<button class="bton" onclick="flipOnClick()">
+			<i class='material-icons' style='transform: rotate(90deg);'>flip</i>
+		</button>
+		<button class="bton" onclick="">
+			<i class='material-icons'>emoji_objects</i>
+		</button>
+		<button class="bton" onclick="preBtnOnClick()">
+			<i class="material-icons">navigate_before</i>
+		</button>
+		<button class="bton" onclick="nextBtnOnClick()">
+			<i class="material-icons" >navigate_next</i>
+		</button>
+	</div>
+	<div class='rightpanel_container'>
 		<div class="rightpanel">
 			<div class="navigateMoves">
-				<button class="nextbtn nextMove" onclick="undo()"><p><-</p></button>
-				<button class="nextbtn nextMove" onclick="flipOnClick()"><p>flip</p></button>
-				<button class="nextbtn nextMove" onclick="firstBtnOnClick()"><p>|<</p></button>
-				<button class="prebtn previouseMove" onclick="preBtnOnClick()">
-					<p><</p>
+				<button class="bton" onclick="undo()">
+					<i class='material-icons'>undo</i>
 				</button>
-				<button class="nextbtn nextMove" onclick="nextBtnOnClick()"><p>></p></button>
-				<button class="nextbtn nextMove" onclick="lastBtnOnClick()"><p>>|</p></button>
+				<button class="bton" onclick="flipOnClick()">
+					<i class='material-icons' style='transform: rotate(90deg);'>flip</i>
+				</button>
+				<button class="bton" onclick="undo()">
+					<i class='material-icons'>emoji_objects</i>
+				</button>
+				<button class="bton" onclick="firstBtnOnClick()">
+					<i class="material-icons">first_page</i>
+				</button>
+				<button class="bton" onclick="preBtnOnClick()">
+					<i class="material-icons">navigate_before</i>
+				</button>
+				<button class="bton" onclick="nextBtnOnClick()">
+					<i class="material-icons">navigate_next</i>
+				</button>
+				<button class="bton" onclick="lastBtnOnClick()">
+					<i class="material-icons">last_page</i>
+				</button>
 			</div>
-			<br><br>
-			<input type='file' class="uploadpgn" ></input>
 			<div class='movelogger'> 
 			</div>
 		</div>
+	</div>
 
 	</div>
 </div>
