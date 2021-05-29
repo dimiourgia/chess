@@ -31,7 +31,7 @@
 
   
 </head>
-<body style='margin:0px' class="grey lighten-4">
+<body style='margin:0px' class="grey lighten-3">
 
   <div class='navbar-fixed'>
   <nav>
@@ -40,6 +40,10 @@
       <text class='nav_text'>Puzzle Board</text>
 		  <ul class="left hide-on-med-and-down">
 		  </ul>
+      <label class="switch right">
+        <input id='lightMode' type="checkbox" >
+        <span class="slider round"></span>
+        </label>
 		</div>
 	  </nav>
   </div>
@@ -85,6 +89,24 @@
     </div>
   </div>
   </div>
+
+  <div class="navigateMoves_m">
+		<button class="bton" onclick="undo()">
+			<i class='material-icons scale_down'>undo</i>
+		</button>
+		<button class="bton" onclick="flipOnClick()">
+			<i class='material-icons' style='transform: rotate(90deg);'>flip</i>
+		</button>
+		<button class="bton" onclick="">
+			<i class='material-icons'>emoji_objects</i>
+		</button>
+		<button class="bton" onclick="preBtnOnClick()">
+			<i class="material-icons">navigate_before</i>
+		</button>
+		<button class="bton" onclick="nextBtnOnClick()">
+			<i class="material-icons" >navigate_next</i>
+		</button>
+	</div>
   
   <div class='rightpanel_container'>
     <div class='puzzle_info'>
