@@ -2286,8 +2286,7 @@ async function displayDialogue(dialogue,timeout=0){
 
         var container = document.createElement('div');
         container.classList.add('dialogue');
-        container.classList.add('row');
-        container.classList.add('z-depth-2');
+        container.classList.add('msg');
         rp =document.querySelector('.rightpanel');
         rp.innerHTML="";
         rp.appendChild(container);
@@ -2577,7 +2576,6 @@ function showButtons(){
             undo(moveAfterRogueMode);
             goneRogue=false;
             moveAfterRogueMode=0;
-            document.querySelector('.rightpanel').innerHTML='';
         });
         
         onEngineMove();
@@ -2837,3 +2835,33 @@ document.querySelector('#eval_switch').addEventListener('change',()=>{
         evaluate();
     } 
 });
+
+document.querySelector('#lightMode').addEventListener('change',()=>{
+
+    var isChecked = document.querySelector('#lightMode').checked;
+    if(isChecked){
+
+        document.body.classList.remove('lighten-3');
+        document.body.classList.add('darken-3');
+
+        bton = document.querySelectorAll('.bton').forEach((item)=>{
+            if(item.classList.contains('light')) item.classList.remove('light');
+            item.classList.add('dark')
+        })
+    }
+
+    else{
+
+        document.body.classList.remove('darken-3');
+        document.body.classList.add('lighten-3');
+
+
+        bton = document.querySelectorAll('.bton').forEach((item)=>{
+            if(item.classList.contains('dark')) item.classList.remove('dark');
+            item.classList.add('light')
+        })
+
+    }
+
+
+})
