@@ -2192,6 +2192,7 @@ function fenToMap(fen){
 function undo(times=1){
     console.log('undo');
     if(times>moves.length-1) times=moves.length-1;
+    renderRandom(availBackMoves-times);
     if(moveNumber>0 ){
         for(i=0;i<times;i++)
           moves.pop();
@@ -2202,7 +2203,7 @@ function undo(times=1){
         map[i]=moves[moveNumber].map_c[i].slice();
         wpieceCount=moves[moveNumber].pieceCount[0].slice();
         bpieceCount=moves[moveNumber].pieceCount[1].slice();
-        renderRandom(moveNumber);
+        
         for(i=0;i<times;i++)
            loggedMoves.pop();
        // displayLoggedMoves(loggedMoves);
@@ -2429,3 +2430,53 @@ document.querySelector('#eval_switch').addEventListener('change',()=>{
         evaluate();
     } 
 });
+
+
+document.querySelector('#lightMode').addEventListener('change',()=>{
+
+    var isChecked = document.querySelector('#lightMode').checked;
+    if(isChecked){
+
+        document.body.classList.remove('lighten-3');
+        document.body.classList.add('darken-3');
+
+        bton = document.querySelectorAll('.bton').forEach((item)=>{
+            if(item.classList.contains('light')) item.classList.remove('light');
+            item.classList.add('dark')
+        })
+
+
+        if(document.querySelector('.movelogger').classList.contains('light')) document.querySelector('.movelogger').classList.remove('light');
+        document.querySelector('.movelogger').classList.add('dark'); 
+
+        log = document.querySelectorAll('.logmove').forEach((item)=>{
+            if(item.classList.contains('light_secondary')) item.classList.remove('light_secondary');
+            item.classList.add('dark_secondary');
+        })
+    }
+
+    else{
+
+        document.body.classList.remove('darken-3');
+        document.body.classList.add('lighten-3');
+
+
+        bton = document.querySelectorAll('.bton').forEach((item)=>{
+            if(item.classList.contains('dark')) item.classList.remove('dark');
+            item.classList.add('light')
+        })
+
+
+
+        if(document.querySelector('.movelogger').classList.contains('dark')) document.querySelector('.movelogger').classList.remove('dark');
+        document.querySelector('.movelogger').classList.add('light'); 
+
+
+        log = document.querySelectorAll('.logmove').forEach((item)=>{
+            if(item.classList.contains('dark_secondary')) item.classList.remove('dark_secondary');
+            item.classList.add('light_secondary');
+        })
+    }
+
+
+})
