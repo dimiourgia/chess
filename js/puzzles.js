@@ -275,7 +275,7 @@ var preTouchX='';
 var preTouchY='';
 
 
-board.addEventListener('touchstart',(e)=>{
+board.addEventListener('click',(e)=>{
 
     if(pre_act_sq_id!=null&&pre_act_sq_id!=""){
         var tmp = document.querySelector(pre_act_sq_id);
@@ -286,8 +286,8 @@ board.addEventListener('touchstart',(e)=>{
     }
     
     touchDevice=true;
-        var x= Math.ceil((e.touches[0].pageX-board_x)/sqr_size);
-        var y= Math.ceil((e.touches[0].pageY-board_y)/sqr_size);
+        var x= Math.ceil((e.pageX-board_x)/sqr_size);
+        var y= Math.ceil((e.pageY-board_y)/sqr_size);
         real_x=x;
         real_y=y;
         if(flipped){
@@ -321,15 +321,40 @@ board.addEventListener('touchstart',(e)=>{
             pre_act_sq_id = '#'+Id;
             preTouchX=x;
             preTouchY=y;
-            ar = allPossibleMoves(curnt_act_piece,y*10+x);
+            if(pre_ar!=null || pre_ar!='') removePossibleSquaresDisplay(pre_ar);
+            ar = allPossibleMoves(curnt_act_piece,y*10+x,map);
             displayPossibleSquares(ar);
+            pre_ar = ar;
         }
         else{
+            if(pre_ar!=null || pre_ar!='') removePossibleSquaresDisplay(pre_ar);
             preTouchX='';
             preTouchY='';
         }
     }
     else{
+
+        if(map[y-1][x-1]==''){
+            if(pre_ar!=null || pre_ar!='') removePossibleSquaresDisplay(pre_ar);
+            removeActive();
+        }
+
+        if(map[y-1][x-1][0]==turn){
+            console.log('this is the case');
+            curnt_act_piece = map[y-1][x-1];
+            removeActive();
+            makeActive(className);
+            curnt_act_sq_cl = className;
+            pre_act_sq_id = '#'+Id;
+            preTouchX=x;
+            preTouchY=y;
+            removePossibleSquaresDisplay(pre_ar);
+            ar = allPossibleMoves(curnt_act_piece,y*10+x,map);
+            displayPossibleSquares(ar);
+            pre_ar=ar;
+            return;
+        }
+
         var yl =preTouchY;
         var xl =preTouchX;
 
@@ -343,6 +368,8 @@ board.addEventListener('touchstart',(e)=>{
         else incheck=false;
 
         if(isPossibleMove(curnt_act_piece,tn(yl,xl),tn(y,x))&&!incheck){
+
+            removePossibleSquaresDisplay(pre_ar);
 
             if(curnt_act_piece[1]=='r'){
                 if(curnt_act_piece[0]=='w'){
@@ -525,6 +552,7 @@ board.addEventListener('touchstart',(e)=>{
         if(ar!="")
         removePossibleSquaresDisplay(ar);
     }
+
     else{
         //not a possible move
         removeActive(curnt_act_sq_cl);
@@ -652,43 +680,7 @@ function displayLoggedMoves(ar){
     });
 }
 
-board.addEventListener('click', (e)=>{
- 
-    var x= Math.ceil((e.pageX-board_x)/sqr_size);
-    var y= Math.ceil((e.pageY-board_y)/sqr_size);
-    
-    if(flipped){
-        y = 8-y+1;
-    }
-    else x=8-x+1;
-   
-    if(x>0 && x<9 && y>0 && y<9){
-        var Id = "#square_"+y+"x"+x;
-        var className = ".square_"+y+"x"+x;
-    }
-    var sqr = document.querySelector(Id);
-    if(sqr != null){
-        curnt_img_src = sqr.getAttribute('src');
-        var piece = curnt_img_src.substr(curnt_img_src.length-6,2);
-        if(turn==piece[0]){
-        if(piece[1]!='p'){
 
-            var ar =  allPossibleMoves(piece,y*10+x,map);
-            //var ar = allPossibleSquares(piece[1],y*10+x);
-        }
-        else{
-            //var ar = allPossibleSquares(piece,y*10+x);
-            var ar =  allPossibleMoves(piece,y*10+x,map);
-        }
-
-        removePossibleSquaresDisplay(pre_ar);
-        displayPossibleSquares(ar);
-        pre_ar=ar;
-    }
-    else removePossibleSquaresDisplay(pre_ar);
-}
-    else removePossibleSquaresDisplay(pre_ar);
-});
 
 
 function makeActive(classname){
@@ -750,6 +742,7 @@ for(i=0;i<ar.length;i++){
 }
 
 function allPossibleMoves(piece,position,tmap){
+    console.log('hello from pm');
     var map=tmap;
 const row = Math.floor(position/10);
 const col = position%10;
@@ -1261,6 +1254,7 @@ switch(piece){
             }
             break;       
 }
+console.log('ps',ps);
 return ps;
 
 }
