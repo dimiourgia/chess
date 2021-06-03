@@ -233,9 +233,10 @@ moves:{
 ];
 
 
-
-
-
+window.onload = ()=>{
+    console.log('window loaded');
+    document.querySelector('.overlay').style.display = 'none';
+}
 
 
 class LoggedMoves{
@@ -543,8 +544,10 @@ board.addEventListener('click',(e)=>{
               //  renderRandom(moves.length-1);
               //renderMove(moves[moves.length-1],moves.length-1,true,'forward');
               animateMove(moves.length-1,'forward');
-                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8))){}
+                if(!(curnt_act_piece[0]=='p'&&(y==1||y==8))){
                     puzzleResponse(unreadableMove(move),puzzle[current_puzzle]);
+                }
+                    
             }
         else{
             //gh is false;
@@ -742,12 +745,10 @@ for(i=0;i<ar.length;i++){
 }
 
 function allPossibleMoves(piece,position,tmap){
-    console.log('hello from pm');
     var map=tmap;
 const row = Math.floor(position/10);
 const col = position%10;
 var ps = [];
-console.log('looking for',piece,'at position ', position);
 switch(piece){
    
     case 'wr': 
@@ -1254,7 +1255,6 @@ switch(piece){
             }
             break;       
 }
-console.log('ps',ps);
 return ps;
 
 }
@@ -2108,6 +2108,11 @@ function pieceToNum(piece){
 }
 function makeMove(m,c){
                 console.log('make move execute with move', m);
+                console.log('make move execute with move', m);
+                if(m.match('non')){
+                    toastMessage('Checkmate!!');
+                    return;
+                }
                 fr=m[1];
                 fc=fileToNum(m[0]);
                 tr=m[3];
@@ -2349,6 +2354,8 @@ function fenToMap(fen){
 }
 
 function loadPuzzle(puzzle,pn=0){
+
+
     if(pn!=0) current_puzzle = pn;
     tmp = document.querySelector('.nextPuzzleButton');
     if(!tmp.classList.contains('hide')) tmp.classList.add('hide');
@@ -2405,6 +2412,7 @@ function loadPuzzle(puzzle,pn=0){
     }
 
     evaluate();
+    toastMessage("<img style='width:30px; height:30px; margin-right:15px' src='/images/pieces/"+turn+"k.png'> to move",5000);
 }
 
 function undo(times=1){
@@ -2480,6 +2488,11 @@ function puzzleResponse(move,puzzle){
                         switch(level){case 'one': level='two'; break; case 'two': level='three'; break; case 'three': level='four'; break;}
                     }
                     else{
+
+                     //   tmp = document.querySelector('.overlay_msg');
+                     //   tmp.style.display = 'block';
+
+
                         el = document.querySelector(".rightpanel");
                         nextPuzzleButton();
                         el.scrollTop = el.scrollHeight - el.clientHeight;
@@ -2508,11 +2521,11 @@ window.addEventListener('resize',()=>{
     renderRandom(moves.length-1);
 });
 
-function toastMessage(message) {
+function toastMessage(message,time=3000) {
     var x = document.getElementById("snackbar");
     x.innerHTML=message;
     x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, time);
 }
 
 function responseMethod(method,response,depth=5){
