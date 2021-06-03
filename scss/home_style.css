@@ -19,6 +19,14 @@
   text-align: center;
 }
 
+@media only screen and (max-width: 480px) {
+  .name {
+    font-size: 23px;
+    font-weight: 400;
+    color: #3d3c3c;
+  }
+}
+
 .icon {
   width: 50%;
   height: 50%;
@@ -27,6 +35,10 @@
           align-items: center;
   margin: auto;
   margin-top: 10px;
+}
+
+.card {
+  padding: 10px;
 }
 
 @media only screen and (max-width: 480px) {
