@@ -54,21 +54,38 @@ function show_settings(){
     tmp=document.querySelector('.settings').style.display = 'block';
 }
 
-function expand(){
-    btn = document.querySelector('#expand_daily-puzzles');
+function expand(id){
+
+    
+    btn = document.querySelector('#'+id);
     if(btn.innerHTML=='expand_less') btn.innerHTML='expand_more';
     else  btn.innerHTML='expand_less';
 
-    span = document.querySelector('.card_details');
-    upDiv = document.querySelector('.card_intro');
+   // first_card = document.querySelector('.card');
+   // first_card_pos = first_card.getBoundingClientRect().top;
+
+    span_parent = btn.parentElement.parentElement.parentElement.parentElement;
+    pos = span_parent.getBoundingClientRect();
+    span = span_parent.children[1];
+    upDiv = span_parent.children[0];
+
+
     if(btn.innerHTML=='expand_less'){
         span.style.display = 'block';
+        span.style.height = (screen.height-pos.top-pos.height-10) + 'px';
         upDiv.style.borderBottom = '1px solid grey';
+        document.body.style.overflow =  'hidden';
+
+      //  span_parent.style.marginTop = (first_card_pos - span_parent.getBoundingClientRect().top+8)+'px';
+      //  console.log(span_parent.style.marginTop);
     }
     else{
+       // span_parent.style.marginTop = '.5rem';
         upDiv.style.position = 'relative';
         span.style.display = 'none';
         upDiv.style.borderBottom = 'none';
+        document.body.style.overflow = 'auto';
     }
     
 }
+
