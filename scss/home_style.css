@@ -22,9 +22,9 @@
 
 @media only screen and (max-width: 480px) {
   .name {
-    font-size: 16px;
-    font-weight: 300;
-    color: #3d3c3c;
+    font-size: 19px;
+    font-weight: 400;
+    color: #242323;
   }
 }
 
@@ -68,6 +68,10 @@
   display: flex;
 }
 
+.card_intro_details_half-2 {
+  margin: auto;
+}
+
 .card_intro_expand {
   text-align: center;
   -webkit-box-flex: 1;
@@ -83,6 +87,11 @@
 }
 
 .span_navigate {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  text-align: center;
   padding-right: 10px;
   position: absolute;
   z-index: 10;
