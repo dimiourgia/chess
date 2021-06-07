@@ -49,8 +49,8 @@
 }
 
 .card_intro_icon {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   -webkit-transition: all ease .3s;
   transition: all ease .3s;
 }
@@ -89,7 +89,6 @@
 .span_navigate {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   text-align: center;
   padding-right: 10px;
