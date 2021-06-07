@@ -75,12 +75,18 @@ function expand(id){
         span.style.height = (screen.height-pos.top-pos.height-10) + 'px';
         upDiv.style.borderBottom = '1px solid grey';
         document.body.style.overflow =  'hidden';
+        upDiv.children[0].style.height = '0px';
+        upDiv.children[0].style.width = '0px';
+        
 
       //  span_parent.style.marginTop = (first_card_pos - span_parent.getBoundingClientRect().top+8)+'px';
       //  console.log(span_parent.style.marginTop);
     }
     else{
        // span_parent.style.marginTop = '.5rem';
+       span.style.height = '0px';
+       upDiv.children[0].style.height = '60px';
+        upDiv.children[0].style.width = '60px';
         upDiv.style.position = 'relative';
         span.style.display = 'none';
         upDiv.style.borderBottom = 'none';
