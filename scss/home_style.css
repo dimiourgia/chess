@@ -1,8 +1,8 @@
 .cards-wrapper {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[2];
-      grid-template-columns: repeat(2, 1fr);
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
   grid-column-gap: 10px;
 }
 
@@ -10,8 +10,8 @@
   .cards-wrapper {
     padding-left: 7px;
     padding-right: 7px;
-    -ms-grid-columns: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
   }
 }
 
@@ -30,18 +30,178 @@
 }
 
 .icon {
-  width: 50%;
-  height: 50%;
+  width: 10%;
+  height: 10%;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: auto;
   margin-top: 8px;
+}
+
+.card {
+  -webkit-transition: all ease .2s;
+  transition: all ease .2s;
 }
 
 @media only screen and (max-width: 480px) {
   .card {
     padding: 4px;
   }
+}
+
+.card_intro {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card_intro_icon {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  width: 50px;
+  height: 50px;
+}
+
+.card_intro_icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.card_intro_details {
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+}
+
+.card_intro_expand {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.card_details {
+  overflow: auto;
+  display: none;
+  width: 100%;
+  height: 600px;
+}
+
+.card_intro {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.puzzle_info {
+  padding-top: 8px;
+  text-align: center;
+  background: #1f1e1d;
+  font-size: 18px;
+  color: #daab2b;
+  width: 100%;
+  height: 110px;
+}
+
+.puzzle_info :hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 480px) {
+  .puzzle_info {
+    padding-top: 2px;
+    font-size: 13px;
+    height: 24vw;
+  }
+}
+
+.players_game_info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.p1, .p2 {
+  border: 1px solid #353534;
+  -webkit-box-shadow: 1px 2px 10px #565353;
+          box-shadow: 1px 2px 10px #565353;
+  border-radius: 5%;
+  text-align: left;
+  font-size: 15px;
+  color: #ccccc5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+}
+
+.p1 img, .p2 img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10%;
+  border-width: 4px;
+}
+
+@media only screen and (max-width: 480px) {
+  .p1, .p2 {
+    font-size: 11px;
+  }
+  .p1 img, .p2 img {
+    border-width: 3px;
+    width: 30px;
+    height: 30px;
+    border-radius: 7%;
+  }
+}
+
+.p1 {
+  margin-left: 15px;
+  text-align: left;
+}
+
+.p1 img {
+  border: 4px solid white;
+  margin-right: 15px;
+}
+
+.p2 {
+  text-align: right;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  margin-right: 15px;
+}
+
+.p2 img {
+  margin-left: 15px;
+  border: 4px solid black;
+}
+
+.mid {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 15px;
+  color: #ddd5d5;
+}
+
+.event_info {
+  margin-bottom: 5px;
+}
+
+.round {
+  border: 1px solid;
+  border-radius: 50%;
 }
 /*# sourceMappingURL=home_style.css.map */
