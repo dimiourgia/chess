@@ -85,8 +85,8 @@ function expand(id){
     else{
        // span_parent.style.marginTop = '.5rem';
        span.style.height = '0px';
-       upDiv.children[0].style.height = '60px';
-        upDiv.children[0].style.width = '60px';
+       upDiv.children[0].style.height = '70px';
+        upDiv.children[0].style.width = '70px';
         upDiv.style.position = 'relative';
         span.style.display = 'none';
         upDiv.style.borderBottom = 'none';
