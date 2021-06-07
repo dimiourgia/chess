@@ -53,3 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
 function show_settings(){
     tmp=document.querySelector('.settings').style.display = 'block';
 }
+
+function expand(){
+    btn = document.querySelector('#expand_daily-puzzles');
+    if(btn.innerHTML=='expand_less') btn.innerHTML='expand_more';
+    else  btn.innerHTML='expand_less';
+
+    span = document.querySelector('.card_details');
+    upDiv = document.querySelector('.card_intro');
+    if(btn.innerHTML=='expand_less'){
+        span.style.display = 'block';
+        upDiv.style.borderBottom = '1px solid grey';
+    }
+    else{
+        upDiv.style.position = 'relative';
+        span.style.display = 'none';
+        upDiv.style.borderBottom = 'none';
+    }
+    
+}
