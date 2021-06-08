@@ -80,6 +80,7 @@
 }
 
 .card_details {
+  background: #e09159;
   overflow: auto;
   display: none;
   width: 100%;
@@ -89,6 +90,7 @@
 .span_navigate {
   display: -ms-grid;
   display: grid;
+  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   text-align: center;
   padding-right: 10px;
@@ -100,7 +102,7 @@
   font-size: 20px;
   padding-left: 10px;
   background: #ffffff;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.2);
 }
 
 .puzzles {
@@ -220,5 +222,9 @@
 .round {
   border: 1px solid;
   border-radius: 50%;
+}
+
+.size-20 {
+  width: 35%;
 }
 /*# sourceMappingURL=home_style.css.map */
