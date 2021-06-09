@@ -24,11 +24,12 @@
   .name {
     font-size: 19px;
     font-weight: 400;
-    color: #242323;
+    color: #e9e8e8;
   }
 }
 
 .card {
+  background: linear-gradient(120deg, #696671, #000000d9);
   -webkit-transition: margin ease 2s;
   transition: margin ease 2s;
 }
@@ -80,7 +81,7 @@
 }
 
 .card_details {
-  background: #e09159;
+  background: #eeeceb;
   overflow: auto;
   display: none;
   width: 100%;
