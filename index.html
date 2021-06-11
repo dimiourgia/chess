@@ -35,7 +35,7 @@
 	  </ul>
 
 	  <div class='cards-wrapper'>
-		  <div class='card'>
+		  <div class='card' id='daily_puzzles'>
 			  <div class="card_intro">
 				<div class='card_intro_icon'><img src='/images/others/calendar.svg'></div>
 				<div class='card_intro_details'>
@@ -44,7 +44,7 @@
 						<div>Thursday</div>
 					</div>
 					<div class="card_intro_details_half-2">
-						<button class='btn-flat blue-text'>Play all</button>
+						<button class='btn-flat blue-text' style='border: 1px solid;'>Play all</button>
 					</div>
 				</div>
 				<div class='card_intro_expand'>
@@ -84,7 +84,9 @@
 							<div class="col s12 m8">
 							  <div class="card">
 								<div class="card-image">
-								  <img src="/images/others/board.jpg">
+								  <div class='pz-board'>
+
+								  </div>
 								  <span class="card-title">Card Title</span>
 								</div>
 								<div class="card-content">
@@ -109,16 +111,16 @@
 					<a onclick="expand('expand_puzzle-rabbit')"><i class='material-icons round' id='expand_puzzle-rabbit'>expand_more</i></a>
 				</div>
 			  </div>
-			  <div class='card_details' style='display: flex; flex-direction: column; flex:1; padding-top: 10px;' id='pr_details'>
+			  <div class='card_details' style='padding-top: 20%;' id='pr_details'>
 
 				<div style='display: flex; align-items: center; margin-bottom: 10px;'>
-					<a class='btn size-20' style='margin: auto;'><i class='material-icons'>timer</i>3 Min<i class='material-icons'>bolt</i></a>	
+					<a class='btn-large size-20' style='margin: auto;'><i class='material-icons'>timer</i>3 Min<i class='material-icons'>bolt</i></a>	
 				</div>
 				<div style='display: flex; align-items: center; margin-bottom: 10px;'>
-					<a class='btn size-20' style='margin: auto;'><i class='material-icons'>timer</i>5 Min</a>	
+					<a class='btn-large size-20' style='margin: auto;'><i class='material-icons'>timer</i>5 Min</a>	
 				</div>
 				<div style='display: flex; align-items: center; margin-bottom: 10px;'>
-					<a class='btn size-20' style='margin: auto;'>survival</a>	
+					<a class='btn-large size-20' style='margin: auto;'>survival</a>	
 				</div>
 			  </div>
 		</div>
@@ -165,6 +167,7 @@
 
 </style>
 <script src="js/speech.js"></script>
+<script src='/js/loadpuzzles.js'></script>
 <script src="js/materialize.min.js"></script>
 <script src='sw.js'></script>
 
