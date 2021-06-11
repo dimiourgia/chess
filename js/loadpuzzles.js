@@ -19,7 +19,7 @@ var puzzle=[
 
 
 function add(){
-    var dp = document.querySelector('#daily_puzzles');
+var dp = document.querySelector('#daily_puzzles');
 var container = dp.children[1];
 
 navigation_div = document.createElement('div');
@@ -48,6 +48,7 @@ board_div.setAttribute('class','pz-board');
 
 title_span = document.createElement('span');
 title_span.setAttribute('class','card-title');
+title_span.innerHTML = '#'+l;
 
 image_div.appendChild(board_div);
 image_div.appendChild(title_span);
