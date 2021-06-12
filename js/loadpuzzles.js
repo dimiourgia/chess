@@ -1,29 +1,48 @@
 
 var puzzle=[
     {
-        fen: '4rk2/p1b2p1p/1p4p1/8/8/4B3/1P3P1P/4R1K1 w - - - -'    
+        player:'white',
+        fen: '4rk2/p1b2p1p/1p4p1/8/8/4B3/1P3P1P/4R1K1 w - - - -',
+        intro: 'White to move. There is a mate in two'
+
     },
     {   
+        player:'white',
         fen: 'kbK5/pp6/1P7/8/8/8/8/R7 w - _ _ 0 1',
+        intro: 'White to move. There is a mate in two'
 
     },
     {
+        player:'white',
         fen: '3qr2k/pbpp2pp/1p5N/3Q4/2P1P3/P7/1PP2PPP/R4RK1 w - _ _ 0 1',
-    
+        intro: 'White to move. There is a mate in two'
     },
     {
+        player:'black',
         fen: '2r2rk1/5pPp/p2pb3/q7/4PQP1/p7/1PP5/1K1R1B1R b - - 0 1',
+        intro: 'Black to move. Therre is a forced mate but be careful one mistake and black might be loosing'
     }
 ];
 
 
-
-function add(){
+navigation_div = document.querySelector('.span_navigate');
+pz_links = document.querySelector('.pz_links');
 var dp = document.querySelector('#daily_puzzles');
 var container = dp.children[1];
 
-navigation_div = document.createElement('div');
-navigation_div.setAttribute('class', 'navigate');
+
+function add(){
+ 
+
+
+pz_links.innerHTML = '';
+
+for(l=0;l<puzzle.length;l++){
+   a = document.createElement('a');
+   a.innerHTML = l+1;
+   pz_links.appendChild(a);
+}
+
 
 puzzles_div = document.createElement('div');
 puzzles_div.setAttribute('class','puzzles');
@@ -56,10 +75,23 @@ image_div.appendChild(title_span);
 
 content_div  = document.createElement('div');
 content_div.setAttribute('class','card-content');
+content_div.innerHTML = puzzle[l].intro;
 
+
+action_div = document.createElement('div');
+action_div.setAttribute('class','card-action');
+
+a = document.createElement('a');
+a.setAttribute('class', 'btn-flat');
+a.setAttribute('style', 'border:1px solid');
+a.setAttribute('href','puzzles.html');
+a.innerHTML="solve";
+
+action_div.appendChild(a);
 
 card_div.appendChild(image_div);
 card_div.appendChild(content_div);
+card_div.appendChild(action_div);
 
 
 
@@ -69,14 +101,9 @@ row_div.appendChild(col_div);
 puzzles_div.appendChild(row_div);
 
 
-renderBoard('white','/images/pieces/',fenToMap(puzzle[l].fen),board_div);
+renderBoard(puzzle[l].player,'/images/pieces/',fenToMap(puzzle[l].fen),board_div);
 }
 
-
-
-
-
-container.appendChild(navigation_div);
 container.appendChild(puzzles_div);
 
 }
@@ -198,3 +225,29 @@ function getFile(num){
 
 
 add();
+
+
+puzzles_div = document.querySelector('.puzzles');
+
+
+
+last_pn = Math.floor(container.scrollTop/450);
+pz_links.children[last_pn].classList.add('current_puzzle');
+
+
+container.addEventListener('scroll',(e)=>{
+    pn = Math.floor(container.scrollTop/450);
+
+    if(pn!=last_pn){
+        console.log(pz_links.children[pn]);
+        console.log(last_pn, 'removed');
+        pz_links.children[last_pn].classList.remove('current_puzzle');
+        
+        if(!pz_links.children[pn].classList.contains('current_puzzle'))
+            pz_links.children[pn].classList.add('current_puzzle');
+        
+ 
+        last_pn = pn;
+    }
+   
+});
