@@ -2465,6 +2465,17 @@ document.querySelector('#lightMode').addEventListener('change',()=>{
             item.classList.add('light_secondary');
         })
     }
-
-
 })
+
+document.addEventListener('keydown', (e)=>{
+    //console.log("keypressed "+e.which);
+
+    if(e.which == 37){
+        preBtnOnClick();
+    }
+
+    if(e.which ==39){
+        nextBtnOnClick();
+    }
+})
+
