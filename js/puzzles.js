@@ -2869,6 +2869,17 @@ document.querySelector('#lightMode').addEventListener('change',()=>{
         })
 
     }
-
-
 })
+
+document.addEventListener('keydown', (e)=>{
+   // console.log("keypressed "+e.which);
+
+    if(e.which == 37){
+        preBtnOnClick();
+    }
+
+    if(e.which ==39){
+        nextBtnOnClick();
+    }
+})
+
