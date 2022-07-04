@@ -2871,6 +2871,15 @@ document.querySelector('#lightMode').addEventListener('change',()=>{
     }
 })
 
+window.addEventListener('resize',()=>{
+    console.log('window resized');
+    pos=board.getBoundingClientRect();
+    board_x = pos.left;
+    board_y= pos.top+window.scrollY;
+    sqr_size = (pos.width)/8;
+    renderRandom(moves.length-1);
+});
+
 document.addEventListener('keydown', (e)=>{
    // console.log("keypressed "+e.which);
 
