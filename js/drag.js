@@ -2479,3 +2479,6 @@ document.addEventListener('keydown', (e)=>{
     }
 })
 
+flipOnClick(move_number=currently_rendering);
+flipOnClick(move_number=currently_rendering);
+
