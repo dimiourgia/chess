@@ -67,8 +67,6 @@ displayMap = [[]];
 for(i=0;i<8;i++)
     displayMap[i] = map[i].slice();
 
-
-//makeMove('e8c8');
 renderBoard('white','/images/pieces/',map);
 var stockfish = new Worker('/js/stockfish.asm.js');
 
