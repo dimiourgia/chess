@@ -1,4 +1,4 @@
-
+// "puzzle" need to be fetched from API
 var puzzle=[
     {
         player:'white',
