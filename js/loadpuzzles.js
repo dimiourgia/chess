@@ -35,7 +35,7 @@ function add(){
  
 
 
-pz_links.innerHTML = '';
+pz_links.innerHTML = ' ';
 
 for(l=0;l<puzzle.length;l++){
    a = document.createElement('a');
